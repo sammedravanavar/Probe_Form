@@ -11,22 +11,22 @@ var app = express();
 app.use(session({ secret: 'RIT Data Center 19089905'}))
 
 // view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
+// app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // app.use(logger('dev'));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 // app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', require('./routes/index'));
+app.use('/', require('./routes/login'));
 app.use('/login', require('./routes/login'));
 // app.use('/forgotPass', require('./routes/forgotPass'));
 app.use('/v1/apis', require('./routes/apis/api-index'));
-// app.use('/faculty', require('./routes/faculty/faculty-index'));
 app.use('/super_admin', require('./routes/super_admin/sa-index'));
 app.use('/hr', require('./routes/hr/hr-index'));
 app.use('/interviewer', require('./routes/interviewer/interviewer-index'));

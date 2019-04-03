@@ -4,7 +4,8 @@
   "description": "an online screening application",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -25,8 +26,7 @@
   "homepage": "https://github.com/sammedravanavar/Probe_Form#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
-    "ejs": "^2.6.1",
-    "express": "^4.15.5",
+    "express": "^4.16.4",
     "express-session": "^1.15.6",
     "mysql": "^2.16.0"
   }
