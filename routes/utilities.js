@@ -1,6 +1,11 @@
+var path = require('path')
+
 var checkSesssion=function(req, res){
     if(!req.session.email){
-        res.redirect("/login");
+        // res.redirect("/login");
+        res.sendFile('login.html',{
+            root:path.join(__dirname,'../views')
+        });
         return false;
     }
     return true;

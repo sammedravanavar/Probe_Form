@@ -15,7 +15,7 @@ sqlObject.prototype.login = function(email, pass, callback){
 			// var sql = "select * \
 			// 	from administrator_login \
 			// 	where emailId=? and password=?";
-				console.log("hll");
+				console.log("check for candidate login");
 		//    connection.query(sql, [email, pass], function(err,result){
 		// 	if(err){
 		// 		callback(err,undefined);
