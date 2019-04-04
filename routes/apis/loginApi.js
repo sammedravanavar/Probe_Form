@@ -19,7 +19,7 @@ app.post('/', function(req, res, next) {
         }else{
             var employee=result[0];
             if(employee["type"]){
-                req.session.id = employee["sapientId"]
+                req.session.sapientId = employee["sapientId"]
                 req.session.email = employee["email"];
                 req.session.type = employee["type"];
                 if(req.session.type === "super_admin"){

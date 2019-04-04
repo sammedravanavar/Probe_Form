@@ -30,6 +30,16 @@ sqlObject.prototype.login = function(email, pass, callback){
 	})
 }
 
+sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
+	var connection = this.connection;
+	var sql= "select name, email, type, designation \
+			from employee \
+			where sapientId=?";
+	this.connection.query(sql, [sapientId], function(err, result){
+		callback(err,result);
+	})
+}
+
 var object = new sqlObject();
 
 module.exports = object;

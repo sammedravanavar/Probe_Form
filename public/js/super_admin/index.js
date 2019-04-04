@@ -1,5 +1,32 @@
 (function(){
     'use strict';
+
+    var request = new XMLHttpRequest()
+
+    request.open('GET', '/v1/apis/getEmployeeDetails', true)
+    request.onload = function(){
+        var data = JSON.parse(this.response)
+        if(request.status >= 200 && request.status < 400){
+            console.log(data)
+        }
+        else {
+            console.log('error')
+        }
+    }
+    request.send();
+    
+    request.open('POST', '/v1/apis/editEmployee', true)
+    request.onload = function(){
+        var data = JSON.parse(this.response)
+        if(request.status >= 200 && request.status < 400){
+            console.log(data)
+        }
+        else {
+            console.log('error')
+        }
+    }
+    request.send("name=sammed");
+
     var reviewUsers = document.getElementById('reviewUsers');
     reviewUsers.onclick = function(){
         window.location.href = '/super_admin/reviewUsers'
