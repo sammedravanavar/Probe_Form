@@ -4,12 +4,26 @@ var sqlObject = function(){
 
 }
 
+sqlObject.prototype.editProfile = function(sapientId, name, email, password, type, designation){
+	var connection = this.connection;
+	var sql = `UPDATE employee SET employee.name = ?, employee.email =?, employee.password=?, employee.type=?, employee.designation=? WHERE sapientId=?`;
+	connection.query(sql,[name,email,password,type,designation,sapientId],function(err,result){
+		//callback(err,result);
+		if(err){
+			console.log(err);
+		}
+		else{
+			console.log(result);
+		}
+	});
+}
 sqlObject.prototype.login = function(email, pass, callback){
+	editProfile("145001","sammed","samravan@publicissapient.com","123456","super_admin","SAL1");
 	var connection = this.connection;
 	var sql= "select * \
 			from employee \
 			where email=? and password=?";
-	this.connection.query(sql, [email, pass], function(err, result){
+	connection.query(sql, [email, pass], function(err, result){
         console.log(result)
         if(result == undefined || result.length == 0){
 			// var sql = "select * \
@@ -29,6 +43,8 @@ sqlObject.prototype.login = function(email, pass, callback){
 		}
 	})
 }
+
+
 
 var object = new sqlObject();
 
