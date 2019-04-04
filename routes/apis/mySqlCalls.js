@@ -4,10 +4,10 @@ var sqlObject = function(){
 
 }
 
-sqlObject.prototype.editProfile = function(sapientId, name, email, password, type, designation){
+sqlObject.prototype.editProfile = function(sapientId, name, email, type, designation){
 	var connection = this.connection;
-	var sql = `UPDATE employee SET employee.name = ?, employee.email =?, employee.password=?, employee.type=?, employee.designation=? WHERE sapientId=?`;
-	connection.query(sql,[name,email,password,type,designation,sapientId],function(err,result){
+	var sql = `UPDATE employee SET employee.name = ?, employee.email =?, employee.type=?, employee.designation=? WHERE sapientId=?`;
+	connection.query(sql,[name,email,type,designation,sapientId],function(err,result){
 		//callback(err,result);
 		if(err){
 			console.log(err);
@@ -18,7 +18,6 @@ sqlObject.prototype.editProfile = function(sapientId, name, email, password, typ
 	});
 }
 sqlObject.prototype.login = function(email, pass, callback){
-	// editProfile("145001","sammed","samravan@publicissapient.com","123456","super_admin","SAL1");
 	var connection = this.connection;
 	var sql= "select * \
 			from employee \
@@ -45,13 +44,73 @@ sqlObject.prototype.login = function(email, pass, callback){
 }
 
 sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
-	var connection = this.connection;
+	var con = this.connection;
 	var sql= "select name, email, type, designation \
 			from employee \
 			where sapientId=?";
-	this.connection.query(sql, [sapientId], function(err, result){
+	con.query(sql, [sapientId], function(err, result){
 		callback(err,result);
-	})
+	});
+}
+
+sqlObject.prototype.reviewQuestion = function(callback){
+	var con = this.connection;
+	var sql= `SELECT * FROM question_bank where status="pending" OR status="approved";`
+	con.query(sql, function(err, result){
+		callback(err,result);
+	});
+}
+
+sqlObject.prototype.changeQuestionStatus = function(questionObjArr,callback){
+	var con = this.connection;
+	for(let i=0;i<questionObjArr.length;i++){
+		var sql= `UPDATE question_bank SET question_bank.status=? WHERE question_bank.qId=?;`
+		con.query(sql, [questionObjArr[i].status,questionObjArr[i].id],function(err, result){
+			callback(err,result);
+		});
+	}
+}
+
+sqlObject.prototype.editPassword = function(password,sapientId,callback){
+	var con = this.connection;
+	var sql= `UPDATE employee SET employee.password = ? WHERE sapientId=?;`
+	con.query(sql, [password,sapientId],function(err, result){
+		callback(err,result);
+	});
+}
+
+sqlObject.prototype.addQuestion = function(questionObj,callback){
+	var con = this.connection;
+	var sql= `INSERT INTO question_bank (text,op1,op2,op3,op4,op5,answer,careerStage,difficulty,technology,"approved") values(?,?,?,?,?,?,?,?,?,?);`
+	con.query(sql, [questionObj.text,questionObj.op1,questionObj.op2,questionObj.op3,questionObj.op4,questionObj.op5,questionObj.answer,questionObj.careerStage,questionObj.difficulty,questionObj.technology],function(err, result){
+		callback(err,result);
+	});
+}
+
+sqlObject.prototype.addUser = function(employeeObj,callback){
+	var con = this.connection;
+	var sql= `INSERT INTO employee (sapientId,name,email,password,type,designation,"approved") values (?,?,?,?,?,?);`
+	con.query(sql, [employeeObj.sapientId,employeeObj.name,employeeObj.email,employeeObj.password,employeeObj.type,employeeObj.designation],function(err, result){
+		callback(err,result);
+	});
+}
+
+sqlObject.prototype.reviewUser= function(callback){
+	var con = this.connection;
+	var sql= `SELECT * FROM employee where status="pending" OR status="approved";`
+	con.query(sql, function(err, result){
+		callback(err,result);
+	});
+}
+
+sqlObject.prototype.createRole = function(permissionArr,callback){
+	var con = this.connection;
+	for(let i=0;i<permissionArr.length;i++){
+		var sql= `INSERT INTO role (type,permission) values(?,?);`
+		con.query(sql, [permissionArr[i].type,permissionArr[i].permission],function(err, result){
+			callback(err,result);
+		});
+	}
 }
 
 var object = new sqlObject();
