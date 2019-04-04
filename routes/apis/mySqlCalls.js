@@ -18,7 +18,7 @@ sqlObject.prototype.editProfile = function(sapientId, name, email, password, typ
 	});
 }
 sqlObject.prototype.login = function(email, pass, callback){
-	editProfile("145001","sammed","samravan@publicissapient.com","123456","super_admin","SAL1");
+	// editProfile("145001","sammed","samravan@publicissapient.com","123456","super_admin","SAL1");
 	var connection = this.connection;
 	var sql= "select * \
 			from employee \
@@ -44,7 +44,6 @@ sqlObject.prototype.login = function(email, pass, callback){
 	})
 }
 
-<<<<<<< HEAD
 sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
 	var connection = this.connection;
 	var sql= "select name, email, type, designation \
@@ -54,9 +53,6 @@ sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
 		callback(err,result);
 	})
 }
-=======
-
->>>>>>> 846dae3343a5b9a8dd968c35fd82e99e38eb7609
 
 var object = new sqlObject();
 
