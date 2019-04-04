@@ -40,4 +40,20 @@ app.get('/', function(req, res, next) {
 //   res.render('super_admin/login', { title: 'Express', type:"login", GetParam:"dummy" });
 // });
 
+app.get('/reviewUsers',function(rq,res){
+    res.sendFile('reviewUsers.html',{
+        root:path.join(__dirname,'../../views/super_admin')
+    });
+})
+app.get('/viewUsers',function(rq,res){
+    res.sendFile('viewUsers.html',{
+        root:path.join(__dirname,'../../views/super_admin')
+    });
+})
+app.get('/reviewQuestions',function(rq,res){
+    res.sendFile('reviewQuestions.html',{
+        root:path.join(__dirname,'../../views/super_admin')
+    });
+})
+
 module.exports = app;
