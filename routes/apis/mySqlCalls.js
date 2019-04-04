@@ -44,7 +44,19 @@ sqlObject.prototype.login = function(email, pass, callback){
 	})
 }
 
+<<<<<<< HEAD
+sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
+	var connection = this.connection;
+	var sql= "select name, email, type, designation \
+			from employee \
+			where sapientId=?";
+	this.connection.query(sql, [sapientId], function(err, result){
+		callback(err,result);
+	})
+}
+=======
 
+>>>>>>> 846dae3343a5b9a8dd968c35fd82e99e38eb7609
 
 var object = new sqlObject();
 
