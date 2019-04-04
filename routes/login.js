@@ -19,12 +19,12 @@ app.get('/', function(req, res, next) {
             });
         if(req.session.type === 'hr')
             res.sendFile('index.html',{
-                root:path.join(__dirname,'../views/super_admin')
+                root:path.join(__dirname,'../views/hr')
             });
             // res.redirect("/hr")
         if(req.session.type === 'interviewer')
             res.sendFile('index.html',{
-                root:path.join(__dirname,'../views/super_admin')
+                root:path.join(__dirname,'../views/interviewer')
             });
             // res.redirect("/interviewer")
         // res.redirect("/candidate");
