@@ -1,31 +1,28 @@
 (function(){
     'use strict';
-
-    var request = new XMLHttpRequest()
-
-    request.open('GET', '/v1/apis/getEmployeeDetails', true)
-    request.onload = function(){
-        var data = JSON.parse(this.response)
-        if(request.status >= 200 && request.status < 400){
-            console.log(data)
+    // var request = new XMLHttpRequest()
+    var call = function(method,endpoint,callback){
+        var request = new XMLHttpRequest()
+        request.open(method, '/v1/apis/'+endpoint, true)
+        request.onload = function(){
+            var data = JSON.parse(this.response)
+            if(request.status >= 200 && request.status < 400){
+                console.log(data)
+                callback();
+            }
+            else {
+                console.log('error')
+            }
         }
-        else {
-            console.log('error')
-        }
+        request.send();
     }
-    request.send();
-    
-    request.open('POST', '/v1/apis/editEmployee', true)
-    request.onload = function(){
-        var data = JSON.parse(this.response)
-        if(request.status >= 200 && request.status < 400){
-            console.log(data)
-        }
-        else {
-            console.log('error')
-        }
-    }
-    request.send("name=sammed");
+    call('GET','getEmployeeDetails',function(){});
+    // call('POST','editEmployee',function(){});
+    // call('POST','add_users',function(){});
+    // call('POST','review_users',function(){});
+    // call('POST','create_role',function(){});
+    // call('POST','add_questions',function(){});
+    // call('POST','review_questions',function(){});
 
     var reviewUsers = document.getElementById('reviewUsers');
     reviewUsers.onclick = function(){
