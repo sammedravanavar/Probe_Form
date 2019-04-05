@@ -26,12 +26,21 @@
             permissions.push(object.permission)
         })
         console.log(permissions)
-        var cards = document.getElementById('cards');
+        var row = document.getElementById('cards');
         for(var i=0; i<permissions.length; i++){
-            var div = document.createElement('div')
-            div.id = permissions[i];
-            div.innerHTML = permissions[i];
-            cards.appendChild(div)
+            var colDiv = document.createElement('div');
+            colDiv.className = "col s12 m6 xl6";
+            var cardDiv = document.createElement('div');
+            cardDiv.className = "card";
+            var cardContent = document.createElement('div');
+            cardContent.className="card-content";
+            var span = document.createElement('span');
+            span.className = "card-title center-align";
+            span.innerHTML = permissions[i];
+            row.appendChild(colDiv);
+            colDiv.appendChild(cardDiv);
+            cardDiv.appendChild(cardContent);
+            cardContent.appendChild(span);
         }
         var reviewUsers = document.getElementById('review_users');
         reviewUsers.onclick = function(){
@@ -58,7 +67,7 @@
     
         // }
     });
-    // call('GET','getEmployeeDetails',function(data){});
+    call('GET','getEmployeeDetails',function(data){});
     //call('POST','editEmployee',function(data){console.log(data)});
     // call('POST','editPassword',function(data){console.log(data)});
     //call('POST','add_users',function(){data});
