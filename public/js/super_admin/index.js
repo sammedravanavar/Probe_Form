@@ -52,9 +52,9 @@
     
         // }
     });
-    call('GET','getEmployeeDetails',function(data){});
-    // call('POST','editEmployee',function(){data});
-    // call('POST','add_users',function(){data});
+    // call('GET','getEmployeeDetails',function(data){});
+    //call('POST','editEmployee',function(data){console.log(data)});
+    call('POST','add_users',function(){data});
     // call('POST','review_users',function(data){
     //     console.log(data)
     // });
