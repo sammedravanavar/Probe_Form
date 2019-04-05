@@ -4,16 +4,16 @@ var sqlObject = function(){
 
 }
 
-sqlObject.prototype.editProfile = function(sapientId, name, email, type, designation){
+sqlObject.prototype.editProfile = function(sapientId, name, email, type, designation,callback){
 	var connection = this.connection;
 	var sql = `UPDATE employee SET employee.name = ?, employee.email =?, employee.type=?, employee.designation=? WHERE sapientId=?`;
 	connection.query(sql,[name,email,type,designation,sapientId],function(err,result){
-		//callback(err,result);
+		callback(err,result);
 		if(err){
 			console.log(err);
 		}
 		else{
-			console.log(result);
+			console.log("hiii"+JSON.stringify(result));
 		}
 	});
 }
@@ -87,10 +87,12 @@ sqlObject.prototype.addQuestion = function(questionObj,callback){
 	});
 }
 
-sqlObject.prototype.addUser = function(employeeObj,callback){
+sqlObject.prototype.addUser = function(employeeArr,callback){
 	var con = this.connection;
-	var sql= `INSERT INTO employee (sapientId,name,email,password,type,designation,"approved") values (?,?,?,?,?,?);`
-	con.query(sql, [employeeObj.sapientId,employeeObj.name,employeeObj.email,employeeObj.password,employeeObj.type,employeeObj.designation],function(err, result){
+	// var sql= `INSERT INTO employee (sapientId,name,email,password,type,designation,"approved") values (?,?,?,?,?,?);`
+	var sql= `INSERT INTO employee (sapientId,name,email,password,type,designation,status) values (?);`
+	con.query(sql, [employeeArr],function(err, result){
+		console.log(err)
 		callback(err,result);
 	});
 }

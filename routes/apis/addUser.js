@@ -5,19 +5,19 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
     var callback = function(err, result){
         if(err){
             console.log(err.message);
             res.redirect("/login?error="+qs.escape(err.message));
         }
-        if(result.length==0){
+        if(result===undefined){
             res.redirect("/login?error="+qs.escape("employee not found"));
         }else{
             res.send(result);
         }
     }
-    // mysql.getEmployeeDetails(sapientId, callback);
+    mysql.addUser(["145004","sammed","samravan@publicissapient.com","123456","super_admin","sss","approved"], callback);
 });
 
 module.exports = app;
