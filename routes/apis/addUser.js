@@ -9,10 +9,14 @@ app.post('/', function(req, res, next) {
     var callback = function(err, result){
         if(err){
             console.log(err.message);
-            res.redirect("/login?error="+qs.escape(err.message));
+            res.sendFile('error.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }
         if(result===undefined){
-            res.redirect("/login?error="+qs.escape("employee not found"));
+            res.sendFile('error.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }else{
             res.send(result);
         }

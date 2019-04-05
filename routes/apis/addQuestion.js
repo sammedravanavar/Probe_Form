@@ -5,19 +5,23 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
     var callback = function(err, result){
         if(err){
             console.log(err.message);
-            res.redirect("/login?error="+qs.escape(err.message));
+            res.sendFile('error.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }
-        if(result.length==0){
-            res.redirect("/login?error="+qs.escape("employee not found"));
+        if(result===undefined){
+            res.sendFile('error.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }else{
             res.send(result);
         }
     }
-    // mysql.getEmployeeDetails(sapientId, callback);
+    mysql.addQuestion(callback);
 });
 
 module.exports = app;
