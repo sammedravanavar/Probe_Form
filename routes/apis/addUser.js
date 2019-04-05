@@ -21,7 +21,14 @@ app.post('/', function(req, res, next) {
             res.send(result);
         }
     }
-    mysql.addUser(["145004","sammed","samravan@publicissapient.com","123456","super_admin","sss","approved"], callback);
+    var sapientId = req.body.sapientId;
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var type = req.body.type;
+    var designation = req.body.designation;
+    mysql.addUser([sapientId,name,email,password,type,designation,"approved"],callback)
+    // mysql.addUser(["145004","sammed","samravan@publicissapient.com","123456","super_admin","sss","approved"], callback);
 });
 
 module.exports = app;
