@@ -5,7 +5,13 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
+    var role = req.body.role;
+    var permissions = req.body.permissions;
+    var list = [];
+    permissions.forEach(function(permission){
+        list.push([role, permission])
+    })
     var callback = function(err, result){
         if(err){
             console.log(err.message);
@@ -17,7 +23,7 @@ app.post('/', function(req, res, next) {
             res.send(result);
         }
     }
-    // mysql.getEmployeeDetails(sapientId, callback);
+    mysql.createRole(list, callback);
 });
 
 module.exports = app;

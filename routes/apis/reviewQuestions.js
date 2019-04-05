@@ -17,7 +17,7 @@ app.post('/', function(req, res, next) {
             res.send(result);
         }
     }
-    // mysql.getEmployeeDetails(sapientId, callback);
+    mysql.reviewQuestion(callback);
 });
 
 module.exports = app;

@@ -105,12 +105,12 @@ sqlObject.prototype.reviewUser= function(callback){
 
 sqlObject.prototype.createRole = function(permissionArr,callback){
 	var con = this.connection;
-	for(let i=0;i<permissionArr.length;i++){
-		var sql= `INSERT INTO role (type,permission) values(?,?);`
-		con.query(sql, [permissionArr[i].type,permissionArr[i].permission],function(err, result){
+	// for(let i=0;i<permissionArr.length;i++){
+		var sql= `INSERT INTO role (type,permission) values ?;`
+		con.query(sql, [permissionArr],function(err, result){
 			callback(err,result);
 		});
-	}
+	// }
 }
 
 var object = new sqlObject();
