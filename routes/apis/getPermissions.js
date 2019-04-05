@@ -4,8 +4,9 @@ var mysql = require("./mySqlCalls.js");
 var qs=require("querystring");
 var path = require('path')
 
-app.post('/', function(req, res, next) {
+app.get('/', function(req, res, next) {
     console.log(req.body);
+    var type = req.session.type;
     var callback = function(err, result){
         if(err){
             console.log(err.message);
@@ -17,7 +18,8 @@ app.post('/', function(req, res, next) {
             res.send(result);
         }
     }
-    mysql.reviewUser(callback);
+    // mysql.getEmployeeDetails(sapientId, callback);
+    res.send({'permissions':['add_users','review_users','add_questions','review_questions','create_role','skill_matrix']})
 });
 
 module.exports = app;
