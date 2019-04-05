@@ -6,6 +6,8 @@
         request.open(method, '/v1/apis/'+endpoint, true)
         request.setRequestHeader("Content-type", "application/json");
         request.onload = function(){
+            console.log(typeof this.response)
+            console.log(this.response)
             var data = JSON.parse(this.response)
             if(request.status >= 200 && request.status < 400){
                 // console.log(data)
@@ -19,7 +21,11 @@
     }
     call('GET','getPermissions',function(data){
         console.log(data);
-        var permissions = data.permissions;
+        var permissions = [];
+        data.forEach(object=>{
+            permissions.push(object.permission)
+        })
+        console.log(permissions)
         var cards = document.getElementById('cards');
         for(var i=0; i<permissions.length; i++){
             var div = document.createElement('div')
@@ -54,15 +60,15 @@
     });
     // call('GET','getEmployeeDetails',function(data){});
     //call('POST','editEmployee',function(data){console.log(data)});
-    call('POST','add_users',function(){data});
+    // call('POST','editPassword',function(data){console.log(data)});
+    //call('POST','add_users',function(){data});
     // call('POST','review_users',function(data){
     //     console.log(data)
     // });
+    //call('POST','changeQuestionStatus',function(data){console.log(data)});
     // "role=hero&permission=['add_user','create_role']"
-    // call('POST','create_role',function(data){
-    //     console.log(data)    
-    // }, JSON.stringify({'role':'hero','permissions':[1,2]}));
-    // call('POST','add_questions',function(){data});
+    //  call('POST','create_role',function(data){console.log(data)}, JSON.stringify({'role':'hero','permissions':[1,2]}));
+    //call('POST','add_questions',function(){data});
     // call('POST','review_questions',function(data){
     //     console.log(data)
     // });

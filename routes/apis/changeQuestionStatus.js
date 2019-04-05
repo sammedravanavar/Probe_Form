@@ -14,10 +14,11 @@ app.post('/', function(req, res, next) {
         if(result.length==0){
             res.redirect("/login?error="+qs.escape("employee not found"));
         }else{
-            res.send(result);
+            // res.write(JSON.stringify(result));
+            res.end(JSON.stringify(result))
         }
     }
-    mysql.getEmployeeDetails(sapientId, callback);
+    mysql.changeQuestionStatus([["approved",1],["approved",2]], callback);
 });
 
 module.exports = app;

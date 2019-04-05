@@ -43,6 +43,14 @@ sqlObject.prototype.login = function(email, pass, callback){
 	})
 }
 
+sqlObject.prototype.getPermissions = function(type, callback){
+	var con = this.connection;
+	var sql= `SELECT permission from permissions WHERE id in (SELECT permission from role WHERE type = ?)`
+	con.query(sql, [type], function(err, result){
+		callback(err,result);
+	});
+}
+
 sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
 	var con = this.connection;
 	var sql= "select name, email, type, designation \
@@ -61,14 +69,15 @@ sqlObject.prototype.reviewQuestion = function(callback){
 	});
 }
 
-sqlObject.prototype.changeQuestionStatus = function(questionObjArr,callback){
+sqlObject.prototype.changeQuestionStatus = function(questionArr,callback){
 	var con = this.connection;
-	for(let i=0;i<questionObjArr.length;i++){
+	for(let i=0;i<questionArr.length;i++){
 		var sql= `UPDATE question_bank SET question_bank.status=? WHERE question_bank.qId=?;`
-		con.query(sql, [questionObjArr[i].status,questionObjArr[i].id],function(err, result){
+		con.query(sql, [questionArr[i][0],questionArr[i][1]],function(err, result){
 			callback(err,result);
 		});
 	}
+	// callback("err","done")
 }
 
 sqlObject.prototype.editPassword = function(password,sapientId,callback){
@@ -81,8 +90,8 @@ sqlObject.prototype.editPassword = function(password,sapientId,callback){
 
 sqlObject.prototype.addQuestion = function(questionObj,callback){
 	var con = this.connection;
-	var sql= `INSERT INTO question_bank (text,op1,op2,op3,op4,op5,answer,careerStage,difficulty,technology,"approved") values(?,?,?,?,?,?,?,?,?,?);`
-	con.query(sql, [questionObj.text,questionObj.op1,questionObj.op2,questionObj.op3,questionObj.op4,questionObj.op5,questionObj.answer,questionObj.careerStage,questionObj.difficulty,questionObj.technology],function(err, result){
+	var sql= `INSERT INTO question_bank (text,op1,op2,op3,op4,op5,answer,careerStage,difficulty,technology,status) values(?,?,?,?,?,?,?,?,?,?,?);`
+	con.query(sql, [questionObj.text,questionObj.op1,questionObj.op2,questionObj.op3,questionObj.op4,questionObj.op5,questionObj.answer,questionObj.careerStage,questionObj.difficulty,questionObj.technology,questionObj.status],function(err, result){
 		callback(err,result);
 	});
 }

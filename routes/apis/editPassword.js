@@ -5,7 +5,8 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
+    var sapientId = req.session.sapientId;
     var callback = function(err, result){
         if(err){
             console.log(err.message);
@@ -14,10 +15,11 @@ app.post('/', function(req, res, next) {
         if(result.length==0){
             res.redirect("/login?error="+qs.escape("employee not found"));
         }else{
-            res.send(result);
+            res.end(JSON.stringify(result));
         }
     }
-    // mysql.getEmployeeDetails(sapientId, callback);
+    var password="123456";
+    mysql.editPassword(password,sapientId, callback);
 });
 
 module.exports = app;

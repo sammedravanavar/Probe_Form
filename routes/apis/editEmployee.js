@@ -5,7 +5,7 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
     var sapientId = req.session.sapientId;
     // var name = req.body.name;
     // var email = req.body.email;
