@@ -5,6 +5,7 @@ app.use('/login', require('./loginApi'));
 app.use('/logout', require('./logoutApi'));
 app.use('/getEmployeeDetails', require('./getEmployee'));
 app.use('/editEmployee', require('./editEmployee'));
+app.use('/editPassword', require('./editPassword'));
 app.use('/add_questions', require('./addQuestion'));
 app.use('/add_users',require('./addUser'));
 app.use('/changeQuestionStatus',require('./changeQuestionStatus'));
