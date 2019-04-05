@@ -20,7 +20,7 @@ app.post('/', function(req, res, next) {
         if(result.length==0){
             res.redirect("/login?error="+qs.escape("employee not found"));
         }else{
-            res.send(result);
+            res.end(JSON.stringify(result));
         }
     }
     mysql.createRole(list, callback);

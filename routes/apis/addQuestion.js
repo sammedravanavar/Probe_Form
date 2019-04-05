@@ -18,10 +18,11 @@ app.post('/', function(req, res, next) {
                 root:path.join(__dirname,'../../views')
             });
         }else{
-            res.send(result);
+            res.end(JSON.stringify(result));
         }
     }
-    mysql.addQuestion(callback);
+    mysql.addQuestion({text:"nhnji",op1:"op1",op2:"op2",op3:"op3",op4:"op4",op5:"op5",answer:"answer",
+careerStage:"careerStage",difficulty:"dif",technology:"tech",status:"approved"}, callback);
 });
 
 module.exports = app;

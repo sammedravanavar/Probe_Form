@@ -15,11 +15,12 @@ app.get('/', function(req, res, next) {
         if(result.length==0){
             res.redirect("/login?error="+qs.escape("employee not found"));
         }else{
-            res.send(result);
+           res.send(result);
+        //    res.end(result);
         }
     }
-    // mysql.getEmployeeDetails(sapientId, callback);
-    res.send({'permissions':['add_users','review_users','add_questions','review_questions','create_role','skill_matrix']})
+    mysql.getPermissions(type, callback);
+    // res.send({'permissions':['add_users','review_users','add_questions','review_questions','create_role','skill_matrix']})
 });
 
 module.exports = app;
