@@ -18,7 +18,10 @@ app.post('/', function(req, res, next) {
                 root:path.join(__dirname,'../../views')
             });
         }else{
-            res.send(result);
+            // res.send(result);
+            res.sendFile('index.html',{
+                root:path.join(__dirname,'../../views/super_admin')
+            });
         }
     }
     var sapientId = req.body.sapientId;

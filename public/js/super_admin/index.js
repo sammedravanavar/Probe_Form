@@ -88,37 +88,79 @@
             var modalHeader = document.getElementById('modalHeader');
             modalHeader.innerHTML = "<h5>Add New User</h5>"
             var form = document.createElement('form');
+            form.method = 'post';
+            form.action = '/v1/apis/add_users'
             var sapientId = document.createElement('input');
-            sapientId.type = 'text'; sapientId.placeholder = "Sapient ID"
-            var name = document.createElement('input');
-            name.type = 'text'; name.placeholder = "Name";
+            sapientId.type = 'text'; sapientId.placeholder = "Sapient ID"; sapientId.name = 'sapientId';
+            var name = document.createElement('input'); 
+            name.type = 'text'; name.placeholder = "Name"; name.name = 'name';
             var email = document.createElement('input');
-            email.type = 'email'; email.placeholder = "Email";
+            email.type = 'email'; email.placeholder = "Email"; email.name = 'email';
             var password = document.createElement('input');
-            password.type = 'text'; password.placeholder = "Password";
+            password.type = 'text'; password.placeholder = "Password"; password.name ='password';
             var type = document.createElement('input');
-            type.type = 'text'; type.placeholder = "Type";
+            type.type = 'text'; type.placeholder = "Type"; type.name = 'type';
             var designation = document.createElement('input');
-            designation.type = 'text'; designation.placeholder = "Designation";
-            var submit = document.createElement('a');
-            submit.innerHTML = 'Submit';
-            form.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + type.outerHTML + designation.outerHTML + submit.outerHTML;
+            designation.type = 'text'; designation.placeholder = "Designation"; designation.name = 'designation';
+            var submitForm = document.createElement('input');
+            // submitForm.id = "submitForm";
+            // submitForm.innerHTML = 'Submit';
+            submitForm.type = 'submit';
+            form.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + type.outerHTML + designation.outerHTML + submitForm.outerHTML;
             modalContent.appendChild(form);
-            submit.onclick = function(){
-                call('POST','add_users',function(data){
+            // document.getElementById("submitForm").onclick = function(){
+            //     console.log('You clicked me')
+            //     call('POST','add_users',function(data){
+            //         console.log(data)
+            //     },JSON.stringify({'sapientId':sapientId.value,'name':name.value,'email':email.value,'password':password.value,'type':type.value,'designation':designation.value}))       
+            //     document.body.removeChild(modalContent.parentElement)
+            // }
+        }
+        var createRoles = document.getElementById('create_role');
+        createRoles.onclick = function(){
+            createModal();
+            var modalContent = document.getElementById('modalContent');
+            var modalHeader = document.getElementById('modalHeader');
+            modalHeader.innerHTML = "<h5>Create New Role</h5>"
+            var role = document.createElement('input');
+            role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
+            var name = document.createElement('input'); 
+            name.type = 'text'; name.placeholder = "Name";
+            var submitForm = document.createElement('a');
+            submitForm.id = "submitForm";
+            submitForm.innerHTML = 'Submit';
+            // submitForm.type = 'submit';
+            modalContent.innerHTML += role.outerHTML + name.outerHTML + submitForm.outerHTML;
+            document.getElementById("submitForm").onclick = function(){
+                var roleName = document.getElementById('role').value
+                call('POST','create_role',function(data){
                     console.log(data)
-                },{'name':name.value,'email':email.value,'password':password.value,'type':type.value,'designation':designation.value})       
+                },JSON.stringify({'role':roleName,'permissions': [1]}))       
+                document.body.removeChild(modalContent.parentElement)
+            }   
+        }
+        var addQuestions = document.getElementById('add_questions');
+        addQuestions.onclick = function(){
+            createModal();
+            var modalContent = document.getElementById('modalContent');
+            var modalHeader = document.getElementById('modalHeader');
+            modalHeader.innerHTML = "<h5>Create New Role</h5>"
+            var role = document.createElement('input');
+            role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
+            
+            var submitForm = document.createElement('a');
+            submitForm.id = "submitForm";
+            submitForm.innerHTML = 'Submit';
+            // submitForm.type = 'submit';
+            modalContent.innerHTML += role.outerHTML + name.outerHTML + submitForm.outerHTML;
+            document.getElementById("submitForm").onclick = function(){
+                var roleName = document.getElementById('role').value
+                call('POST','add_questions',function(data){
+                    console.log(data)
+                },JSON.stringify({'role':roleName,'permissions': [1]}))       
                 document.body.removeChild(modalContent.parentElement)
             }
         }
-        // var createRoles = document.getElementById('create_role');
-        // createRoles.onclick = function(){
-            
-        // }
-        // var addQuestions = document.getElementById('add_questions');
-        // addQuestions.onclick = function(){
-    
-        // }
     });
 
     var name = document.getElementById('name');
@@ -180,14 +222,11 @@
         }
     }
     // call('POST','editPassword',function(data){console.log(data)});
-    //call('POST','add_users',function(){data});
     // call('POST','review_users',function(data){
     //     console.log(data)
     // });
     //call('POST','changeQuestionStatus',function(data){console.log(data)});
     // "role=hero&permission=['add_user','create_role']"
-    //  call('POST','create_role',function(data){console.log(data)}, JSON.stringify({'role':'hero','permissions':[1,2]}));
-    //call('POST','add_questions',function(){data});
     // call('POST','review_questions',function(data){
     //     console.log(data)
     // });

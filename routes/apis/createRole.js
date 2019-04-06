@@ -5,7 +5,7 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    // console.log(req.body);
+    console.log(req.body);
     var role = req.body.role;
     var permissions = req.body.permissions;
     var list = [];
@@ -17,7 +17,7 @@ app.post('/', function(req, res, next) {
             console.log(err.message);
             res.redirect("/login?error="+qs.escape(err.message));
         }
-        if(result.length==0){
+        if(result === undefined){
             res.redirect("/login?error="+qs.escape("employee not found"));
         }else{
             // res.end(JSON.stringify(result));
