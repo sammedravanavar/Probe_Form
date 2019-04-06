@@ -5,7 +5,7 @@ var qs=require("querystring");
 var path = require('path')
 
 app.post('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
     var callback = function(err, result){
         if(err){
             console.log(err.message);

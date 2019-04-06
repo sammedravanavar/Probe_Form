@@ -31,13 +31,13 @@ app.post('/', function(req, res, next) {
                 else if(req.session.type === "hr"){
                     // res.redirect("/hr?id=" + employee["sapientId"]);
                     res.sendFile('index.html',{
-                        root:path.join(__dirname,'../../views/hr')
+                        root:path.join(__dirname,'../../views/super_admin')
                     });
                 }
                 else if(req.session.type === "interviewer"){
                     // res.redirect("/interviewer?id=" + employee["sapientId"]);
                     res.sendFile('index.html',{
-                        root:path.join(__dirname,'../../views/interviewer')
+                        root:path.join(__dirname,'../../views/super_admin')
                     });
                 }
             } else{

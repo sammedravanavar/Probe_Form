@@ -5,7 +5,7 @@ var qs=require("querystring");
 var path = require('path')
 
 app.get('/', function(req, res, next) {
-    console.log(req.body);
+    // console.log(req.body);
     var type = req.session.type;
     var callback = function(err, result){
         if(err){

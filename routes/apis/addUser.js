@@ -9,15 +9,29 @@ app.post('/', function(req, res, next) {
     var callback = function(err, result){
         if(err){
             console.log(err.message);
-            res.redirect("/login?error="+qs.escape(err.message));
+            res.sendFile('error.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }
         if(result===undefined){
-            res.redirect("/login?error="+qs.escape("employee not found"));
+            res.sendFile('error.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }else{
-            res.send(result);
+            // res.send(result);
+            res.sendFile('index.html',{
+                root:path.join(__dirname,'../../views/super_admin')
+            });
         }
     }
-    mysql.addUser(["145004","sammed","samravan@publicissapient.com","123456","super_admin","sss","approved"], callback);
+    var sapientId = req.body.sapientId;
+    var name = req.body.name;
+    var email = req.body.email;
+    var password = req.body.password;
+    var type = req.body.type;
+    var designation = req.body.designation;
+    mysql.addUser([sapientId,name,email,password,type,designation,"approved"],callback)
+    // mysql.addUser(["145004","sammed","samravan@publicissapient.com","123456","super_admin","sss","approved"], callback);
 });
 
 module.exports = app;
