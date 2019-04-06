@@ -70,12 +70,10 @@
             modalContent.appendChild(modalHeader);
             modalHeader.appendChild(close);
             close.onclick = function() {
-                // modal.style.display = "none";
                 document.body.removeChild(modal)
             }
             window.onclick = function(event) {
                 if (event.target == modal) {
-                    // modal.style.display = "none";
                     document.body.removeChild(modal)
                 }
             }
@@ -87,57 +85,82 @@
             var modalContent = document.getElementById('modalContent');
             var modalHeader = document.getElementById('modalHeader');
             modalHeader.innerHTML = "<h5>Add New User</h5>"
-            var form = document.createElement('form');
-            form.method = 'post';
-            form.action = '/v1/apis/add_users'
             var sapientId = document.createElement('input');
-            sapientId.type = 'text'; sapientId.placeholder = "Sapient ID"; sapientId.name = 'sapientId';
+            sapientId.type = 'text'; sapientId.placeholder = "Sapient ID"; sapientId.id = 'sapientId';
             var name = document.createElement('input'); 
-            name.type = 'text'; name.placeholder = "Name"; name.name = 'name';
+            name.type = 'text'; name.placeholder = "Name"; name.id = 'newName';
             var email = document.createElement('input');
-            email.type = 'email'; email.placeholder = "Email"; email.name = 'email';
+            email.type = 'email'; email.placeholder = "Email"; email.id = 'newEmail';
             var password = document.createElement('input');
-            password.type = 'text'; password.placeholder = "Password"; password.name ='password';
-            var type = document.createElement('input');
-            type.type = 'text'; type.placeholder = "Type"; type.name = 'type';
+            password.type = 'text'; password.placeholder = "Password"; password.id ='newPassword';
+            var role = document.createElement('input');
+            role.type = 'text'; role.placeholder = "Type"; role.id = 'newRole';
             var designation = document.createElement('input');
-            designation.type = 'text'; designation.placeholder = "Designation"; designation.name = 'designation';
-            var submitForm = document.createElement('input');
-            // submitForm.id = "submitForm";
-            // submitForm.innerHTML = 'Submit';
-            submitForm.type = 'submit';
-            form.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + type.outerHTML + designation.outerHTML + submitForm.outerHTML;
-            modalContent.appendChild(form);
-            // document.getElementById("submitForm").onclick = function(){
-            //     console.log('You clicked me')
-            //     call('POST','add_users',function(data){
-            //         console.log(data)
-            //     },JSON.stringify({'sapientId':sapientId.value,'name':name.value,'email':email.value,'password':password.value,'type':type.value,'designation':designation.value}))       
-            //     document.body.removeChild(modalContent.parentElement)
-            // }
+            designation.type = 'text'; designation.placeholder = "Designation"; designation.id = 'newDesignation';
+            var submitForm = document.createElement('button');
+            submitForm.id = "submitUser";
+            submitForm.innerHTML = 'Submit';
+            modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + role.outerHTML + designation.outerHTML + submitForm.outerHTML;
+            document.getElementById("submitUser").onclick = function(){
+                var sapientId = document.getElementById('sapientId').value;
+                var name = document.getElementById('newName').value;
+                var email = document.getElementById('newEmail').value;
+                var password = document.getElementById('newPassword').value;
+                var role = document.getElementById('newRole').value;                
+                var designation = document.getElementById('newDesignation').value;
+                call('POST','add_users',function(data){
+                    console.log(data)
+                },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':role,'designation':designation}))       
+                document.body.removeChild(modalContent.parentElement)
+            }
         }
         var createRoles = document.getElementById('create_role');
         createRoles.onclick = function(){
-            createModal();
-            var modalContent = document.getElementById('modalContent');
-            var modalHeader = document.getElementById('modalHeader');
-            modalHeader.innerHTML = "<h5>Create New Role</h5>"
-            var role = document.createElement('input');
-            role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
-            var name = document.createElement('input'); 
-            name.type = 'text'; name.placeholder = "Name";
-            var submitForm = document.createElement('a');
-            submitForm.id = "submitForm";
-            submitForm.innerHTML = 'Submit';
-            // submitForm.type = 'submit';
-            modalContent.innerHTML += role.outerHTML + name.outerHTML + submitForm.outerHTML;
-            document.getElementById("submitForm").onclick = function(){
-                var roleName = document.getElementById('role').value
-                call('POST','create_role',function(data){
-                    console.log(data)
-                },JSON.stringify({'role':roleName,'permissions': [1]}))       
-                document.body.removeChild(modalContent.parentElement)
-            }   
+            call('GET','getAllPermissions',function(data){
+                var permissions = data;
+                var permissionList = [];
+                var permissionJson = {};
+                createModal();
+                var modalContent = document.getElementById('modalContent');
+                var modalHeader = document.getElementById('modalHeader');
+                modalHeader.innerHTML = "<h5>Create New Role</h5>"
+                var role = document.createElement('input');
+                role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
+                var container = document.createElement('div'); 
+                // container.className = "container";
+                container.innerHTML = "<h5>Select Permissions</h5>"
+                for(var i=0; i<Object.keys(permissions).length; i++){
+                    permissionJson[permissions[i].permission] = permissions[i].id;
+                    permissionList.push(permissions[i].permission)
+                }
+                permissionList.forEach(permission=>{
+                    var checckLabel = document.createElement('label');
+                    checckLabel.for = permission;
+                    var checkElement = document.createElement('input');
+                    checkElement.id = permission;
+                    checkElement.type = 'checkbox';
+                    checkElement.name = 'permissions';
+                    checkElement.value = permission;
+                    checckLabel.innerHTML += checkElement.outerHTML + formatString(permission);
+                    container.innerHTML += checckLabel.outerHTML + '<br/>';
+                })
+                var submitForm = document.createElement('button');
+                submitForm.id = "submitForm";
+                submitForm.style.marginTop = '20px';
+                submitForm.innerHTML = 'Submit';
+                modalContent.innerHTML += role.outerHTML + container.outerHTML + submitForm.outerHTML;
+                document.getElementById("submitForm").onclick = function(){
+                    var roleName = document.getElementById('role').value
+                    var checkedList = document.querySelectorAll('input[name="'+'permissions'+'"]:checked'),values=[];
+                    var checkedPermissionsList = [];
+                    checkedList.forEach(checked=>{
+                        checkedPermissionsList.push(permissionJson[checked.value])
+                    })
+                    call('POST','create_role',function(data){
+                    },JSON.stringify({'role':roleName,'permissions': checkedPermissionsList}))       
+                    document.body.removeChild(modalContent.parentElement)
+                }
+            })
         }
         var addQuestions = document.getElementById('add_questions');
         addQuestions.onclick = function(){
@@ -145,15 +168,50 @@
             var modalContent = document.getElementById('modalContent');
             var modalHeader = document.getElementById('modalHeader');
             modalHeader.innerHTML = "<h5>Create New Role</h5>"
-            var role = document.createElement('input');
-            role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
-            
-            var submitForm = document.createElement('a');
-            submitForm.id = "submitForm";
+            // var role = document.createElement('input');
+            // role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
+            var text = document.createElement('textarea');
+            text.placeholder = "Question"; text.id = "question";
+            var op1 = document.createElement('input');
+            op1.type = "text"; op1.placeholder = "Option 1"; op1.id = "op1";
+            var op2 = document.createElement('input');
+            op2.type = "text"; op2.placeholder = "Option 2"; op2.id = "op2";
+            var op3 = document.createElement('input');
+            op3.type = "text"; op3.placeholder = "Option 3"; op3.id = "op3";
+            var op4 = document.createElement('input');
+            op4.type = "text"; op4.placeholder = "Option 4"; op4.id = "op4";
+            var op5 = document.createElement('input');
+            op5.type = "text"; op5.placeholder = "Option 5"; op5.id = "op5";
+            var answer = document.createElement('input');
+            answer.type = "number"; answer.placeholder = "Option number of correct answer"; answer.id = "answer";
+            var levels = [], techs = [], stages=[];
+            var difficulty = document.createElement('select');
+            ["easy", "medium", "difficult"].forEach(level=>{
+                levels[i] = document.createElement('option');
+                levels[i].innerHTML = level;
+                levels[i].value = level;
+                difficulty.innerHTML += levels[i].outerHTML;
+            })
+            var technology = document.createElement('select');
+            ["HTML","CSS","Javascript","JS Libraries/Frameworks","Mobile Web HTML5 Mark-up and APIs","Standards", "Debugging and Optimization","Accessibility"].forEach(tech=>{
+                techs[i] = document.createElement('option');
+                techs[i].innerHTML = tech;
+                techs[i].value = tech;
+                technology.innerHTML += techs[i].outerHTML;
+            })
+            var careerStage = document.createElement('select');
+            ["AL1", "AL2", "SAL1", "SAL2"].forEach(cs=>{
+                stages[i] = document.createElement('option');
+                stages[i].innerHTML = cs;
+                stages[i].value = cs;
+                careerStage.innerHTML += stages[i].outerHTML;
+            })
+            var submitForm = document.createElement('button');
+            submitForm.id = 'submitQuestion';
             submitForm.innerHTML = 'Submit';
             // submitForm.type = 'submit';
-            modalContent.innerHTML += role.outerHTML + name.outerHTML + submitForm.outerHTML;
-            document.getElementById("submitForm").onclick = function(){
+            modalContent.innerHTML += '<br/>' + text.outerHTML + op1.outerHTML + op2.outerHTML + op3.outerHTML + op4.outerHTML + op5.outerHTML + answer.outerHTML + careerStage.outerHTML  + difficulty.outerHTML + technology.outerHTML + '<br/>' + submitForm.outerHTML;
+            document.getElementById("submitQuestion").onclick = function(){
                 var roleName = document.getElementById('role').value
                 call('POST','add_questions',function(data){
                     console.log(data)
@@ -215,6 +273,7 @@
         }
         submit.onclick = function(){
             setDefault();
+            console.log(designation.value);
             var newName = name.value;
             var newEmail = email.value;
             var newDesgnation = designation.value;

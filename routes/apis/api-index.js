@@ -13,4 +13,5 @@ app.use('/create_role',require('./createRole'));
 app.use('/review_questions',require('./reviewQuestions'));
 app.use('/review_users',require('./reviewUser'));
 app.use('/getPermissions',require('./getPermissions'));
+app.use('/getAllPermissions',require('./getAllPermissions'));
 module.exports = app;
