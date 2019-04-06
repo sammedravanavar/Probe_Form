@@ -51,6 +51,14 @@ sqlObject.prototype.getPermissions = function(type, callback){
 	});
 }
 
+sqlObject.prototype.getAllPermissions = function(callback){
+	var con = this.connection;
+	var sql= `SELECT * from permissions`
+	con.query(sql, function(err, result){
+		callback(err,result);
+	});
+}
+
 sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
 	var con = this.connection;
 	var sql= "select name, email, type, designation \

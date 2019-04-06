@@ -18,18 +18,20 @@ app.post('/', function(req, res, next) {
                 root:path.join(__dirname,'../../views')
             });
         }else{
-            // res.send(result);
-            res.sendFile('index.html',{
-                root:path.join(__dirname,'../../views/super_admin')
-            });
+            res.send(result);
+            // res.sendFile('index.html',{
+            //     root:path.join(__dirname,'../../views/super_admin')
+            // });
         }
     }
+    
     var sapientId = req.body.sapientId;
     var name = req.body.name;
     var email = req.body.email;
     var password = req.body.password;
     var type = req.body.type;
     var designation = req.body.designation;
+    console.log(name+email+designation)
     mysql.addUser([sapientId,name,email,password,type,designation,"approved"],callback)
     // mysql.addUser(["145004","sammed","samravan@publicissapient.com","123456","super_admin","sss","approved"], callback);
 });
