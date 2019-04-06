@@ -59,6 +59,14 @@ sqlObject.prototype.getAllPermissions = function(callback){
 	});
 }
 
+sqlObject.prototype.getAllTypes = function(callback){
+	var con = this.connection;
+	var sql= `SELECT DISTINCT type from role`
+	con.query(sql, function(err, result){
+		callback(err,result);
+	});
+}
+
 sqlObject.prototype.getEmployeeDetails = function(sapientId, callback){
 	var con = this.connection;
 	var sql= "select name, email, type, designation \
