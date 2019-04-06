@@ -7,10 +7,10 @@ var path = require('path')
 app.post('/', function(req, res, next) {
     // console.log(req.body);
     var sapientId = req.session.sapientId;
-    // var name = req.body.name;
-    // var email = req.body.email;
-    // var type = req.body.type;
-    // var designation = req.body.designation
+    var name = req.body.name;
+    var email = req.body.email;
+    var type = req.session.type;
+    var designation = req.body.designation;
     // console.log("this"+sapientId)
     var callback = function(err, result){
         if(err){
@@ -24,7 +24,7 @@ app.post('/', function(req, res, next) {
             res.send(result);
         }
     }
-    // mysql.editProfile(sapientId, name,email,type,designation, callback);
+    mysql.editProfile(sapientId,name,email,type,designation, callback);
 });
 
 module.exports = app;
