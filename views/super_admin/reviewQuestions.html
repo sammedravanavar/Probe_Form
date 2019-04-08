@@ -69,6 +69,24 @@
             top: 0;
             width:100%;
         }
+        [type="checkbox"]:not(:checked),
+        [type="checkbox"]:checked {
+            opacity: 1;
+            pointer-events: all;
+            position: relative;
+            vertical-align: middle;
+            margin: 0px 20px 0px 3px
+        }
+
+        label {
+            font-size: 12x;
+            vertical-align: middle;
+            color: #000;
+        }
+
+        select {
+            display: block !important;
+        }
     </style>
 </head>
 <body>
@@ -76,17 +94,45 @@
         <div class="col s12 m12">
             <div id="profile" class="center-align">
                 <div class="row mr-1 card vertical-align">
-                    <div class="col s2">
-                        <input  id="tech" type="text" placeholder="Technology" />
+                    <div class="col s2">Technology
+                        <!-- <input  id="tech" type="text" placeholder="Technology" /> -->
+                        <select name="Technology" id="tech">
+                                <option value="All">All</option>
+                            <option value="HTML">HTML</option>
+                            <option value="CSS">CSS</option>
+                            <option value="Javascript">Javascript</option>
+                            <option value="JS Libraries/Frameworks">JS Libraries/Frameworks</option>
+                            <option value="Mobile Web HTML5 Mark-up and APIs">Mobile Web HTML5 Mark-up and APIs</option>
+                            <option value="Standards">Standards</option>
+                            <option value="Debugging and Optimization">Debugging and Optimization</option>
+                            <option value="Accessibility">Accessibility</option>
+                        </select>
                     </div>
-                    <div class="col s2">
-                        <input  id="dif" type="text" placeholder="Difficulty"  />
+                    <div class="col s2">Difficulty Level
+                        <!-- <input  id="dif" type="text" placeholder="Difficulty"  /> -->
+                        <select name="Difficulty" id="dif">
+                                <option value="All">All</option>
+                            <option value="easy">easy</option>
+                            <option value="medium">medium</option>
+                            <option value="hard">difficult</option>
+                        </select>
                     </div>
-                    <div class="col s1">
-                        <input  id="career" type="text" placeholder="Career Stage"/>
+                    <div class="col s1">Career Stage
+                        <!-- <input  id="career" type="text" placeholder="Career Stage"/> -->
+                        <select name="Career Stage" id="career">
+                            <option value="AL1">AL1</option>
+                            <option value="AL2">AL2</option>
+                            <option value="SAL1">SAL1</option>
+                            <option value="SAL2">SAL2</option>
+                        </select>
                     </div>
-                    <div class="col s2">
-                        <input  id="status" type="text" placeholder="Status"/>
+                    <div class="col s2">Status
+                        <!-- <input  id="status" type="text" placeholder="Status"/> -->
+                        <select name="Status" id="status">
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Pending">Pending</option>
+                        </select>
                     </div>
                     <div class="col s1">
                         <button id="filter" class="btn btn-large">Search</button>

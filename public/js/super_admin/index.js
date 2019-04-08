@@ -1,6 +1,7 @@
 (function(){
     'use strict';
     
+    //method --> GET/POST, endpoint --> api endpoint
     var call = function(method,endpoint,callback,body){
         var request = new XMLHttpRequest()
         request.open(method, '/v1/apis/'+endpoint, true)
@@ -28,6 +29,7 @@
     var changePassword = document.getElementById('changePassword');
     var type = document.getElementById('type');
     
+    //genertes a modal layout with header, content and modal close functionality
     var createModal = function(){
         var modal = document.createElement('div');
         modal.className = 'modal';
