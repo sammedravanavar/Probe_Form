@@ -35,18 +35,56 @@
             var text = document.createElement('p');
             text.innerHTML = data[i].text;
             var options = document.createElement('p');
-            options.innerHTML = data[i].op1 + " ";
-            options.innerHTML += data[i].op2 + " ";
-            options.innerHTML += data[i].op3 + " ";
-            options.innerHTML += data[i].op4 + " ";
-            options.innerHTML += data[i].op5 + " ";
-            options.innerHTML += data[i].answer;
+            options.innerHTML = "A. "+data[i].op1 + "&nbsp&nbsp";
+            options.innerHTML += "B. "+data[i].op2 + "&nbsp&nbsp ";
+            options.innerHTML += "C. "+data[i].op3 + "&nbsp&nbsp ";
+            options.innerHTML += "D. "+data[i].op4 + " &nbsp&nbsp";
+            options.innerHTML += "E. "+data[i].op5 + "&nbsp&nbsp ";
+            options.innerHTML += "Answer: "+data[i].answer;
             var breakLine1 = document.createElement('hr');
             var breakLine2 = document.createElement('hr');
             var breakLine3 = document.createElement('hr');
             var attributes = document.createElement('p');
-            attributes.innerHTML = data[i].technology;
-            attributes.innerHTML += data[i].careerStage
+            attributes.innerHTML = "Technology: "+data[i].technology + "&nbsp&nbsp&nbsp";
+            attributes.innerHTML += "Career Stage: "+data[i].careerStage + "&nbsp&nbsp&nbsp ";
+            attributes.innerHTML += "Difficulty: "+data[i].difficulty;
+            var fieldset = document.createElement('fieldset');
+            fieldset.setAttribute('id',data[i].qId);
+            var radioDiv1 = document.createElement('div');
+            radioDiv1.className = "col s6 m6 center-align";
+            var radioDiv2 = document.createElement('div');
+            radioDiv2.className = "col s6 m6 center-align";
+            var labelApprove = document.createElement('label');
+            var labelReject = document.createElement('label');
+            labelApprove.className = "white-text";
+            labelReject.className = "white-text";
+            labelReject.innerHTML = "Reject";
+            labelApprove.innerHTML = "Approve";
+            var inputApprove = document.createElement('input')
+            var inputReject = document.createElement('input')
+            inputApprove.setAttribute('type','radio');
+            inputApprove.className="opaque";
+            inputApprove.setAttribute('name',data[i].qId);
+            inputReject.setAttribute('type','radio');
+            inputReject.className="opaque";
+            inputReject.setAttribute('name',data[i].qId);
+            row.appendChild(colDiv);
+            colDiv.appendChild(card);
+            card.appendChild(cardContent);
+            cardContent.appendChild(title);
+            cardContent.appendChild(text);
+            cardContent.appendChild(breakLine1);
+            cardContent.appendChild(options);
+            cardContent.appendChild(breakLine2);
+            cardContent.appendChild(attributes);
+            cardContent.appendChild(breakLine3);
+            cardContent.appendChild(fieldset);
+            fieldset.appendChild(radioDiv1);
+            radioDiv1.appendChild(labelApprove);
+            labelApprove.appendChild(inputApprove);
+            fieldset.appendChild(radioDiv2);
+            radioDiv2.appendChild(labelReject);
+            labelReject.appendChild(inputReject);
         }
     });
     var filterQuestions = function(tech, difficulty, cS, qS){

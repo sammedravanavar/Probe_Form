@@ -57,6 +57,9 @@
         }
     }
     
+    // export {createModal};
+
+    // import {createModal} from './index.js';
     var formatString = function(string){
         return  string.replace('_',' ').split(' ').map(
                     (s) => s.charAt(0).toUpperCase() + s.substring(1)
