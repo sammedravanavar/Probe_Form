@@ -138,17 +138,13 @@
         if(document.getElementById('review_users')){
             var reviewUsers = document.getElementById('review_users');
             reviewUsers.onclick = function(){
-                window.location.href = '/super_admin/reviewUsers'
+                window.location.href = '/admin/reviewUsers'
             }
         }
-        // var viewUsers = document.getElementById('viewUsers');
-        // viewUsers.onclick = function(){
-        //     window.location.href = '/super_admin/viewUsers'
-        // }
         if(document.getElementById('review_questions')){
             var reviewQuestions = document.getElementById('review_questions');
             reviewQuestions.onclick = function(){
-                window.location.href = '/super_admin/reviewQuestions'
+                window.location.href = '/admin/reviewQuestions'
             }
         }
         if(document.getElementById('add_users')){
