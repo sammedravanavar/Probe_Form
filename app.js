@@ -27,9 +27,9 @@ app.use('/', require('./routes/login'));
 app.use('/login', require('./routes/login'));
 // app.use('/forgotPass', require('./routes/forgotPass'));
 app.use('/v1/apis', require('./routes/apis/api-index'));
-app.use('/super_admin', require('./routes/super_admin/sa-index'));
-app.use('/hr', require('./routes/hr/hr-index'));
-app.use('/interviewer', require('./routes/interviewer/interviewer-index'));
+// app.use('/super_admin', require('./routes/super_admin/'));
+// app.use('/hr', require('./routes/hr/hr-index'));
+// app.use('/interviewer', require('./routes/interviewer/interviewer-index'));
 
 // app.get('/error/:type', function(req, res, next){
 //   if(req.params.type == 401){
