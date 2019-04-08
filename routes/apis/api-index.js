@@ -14,4 +14,5 @@ app.use('/review_questions',require('./reviewQuestions'));
 app.use('/review_users',require('./reviewUser'));
 app.use('/getPermissions',require('./getPermissions'));
 app.use('/getAllPermissions',require('./getAllPermissions'));
+app.use('/getAllTypes',require('./getAllTypes'));
 module.exports = app;
