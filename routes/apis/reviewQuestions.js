@@ -18,6 +18,8 @@ app.post('/', function(req, res, next) {
         }
     }
     mysql.reviewQuestion(callback);
+    // console.log('hhhh');
+
 });
 
 module.exports = app;

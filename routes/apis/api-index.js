@@ -1,6 +1,7 @@
 var express = require('express');
 var app = express();
 
+app.get('/review_questions',function(){console.log('jjj');})
 app.use('/login', require('./loginApi'));
 app.use('/logout', require('./logoutApi'));
 app.use('/getEmployeeDetails', require('./getEmployee'));
