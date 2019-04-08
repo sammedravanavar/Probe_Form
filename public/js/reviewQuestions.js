@@ -89,4 +89,18 @@
     submitButton.addEventListener('onclick',function(e){
         
     });
+    var filterQuestions = function(tech, difficulty, cS, qS){
+        console.log(cS);
+        var filtered = questionBank.filter(function(question){
+            return question.careerStage == cS;
+        })
+        console.log(filtered)
+    }
+    document.getElementById('filter').onclick = function(){
+        var technology = document.getElementById('tech').options[document.getElementById('tech').selectedIndex].value;
+        var difficulty = document.getElementById('dif').options[document.getElementById('dif').selectedIndex].value;
+        var careerStage = document.getElementById('career').options[document.getElementById('career').selectedIndex].value;
+        var questionStatus = document.getElementById('status').options[document.getElementById('status').selectedIndex].value;
+        filterQuestions(technology, difficulty, careerStage. questionStatus);
+    }
 })();
