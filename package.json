@@ -29,6 +29,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "mime": "^2.4.0",
-    "mysql": "^2.16.0"
+    "mysql": "^2.16.0",
+    "purify-css": "^1.2.5"
   }
 }
