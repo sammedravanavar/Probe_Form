@@ -22,26 +22,13 @@ app.post('/', function(req, res, next) {
                 req.session.sapientId = employee["sapientId"]
                 req.session.email = employee["email"];
                 req.session.type = employee["type"];
-                if(req.session.type === "super_admin"){
-                    // res.redirect("/super_admin/");
-                    res.sendFile('index.html',{
-                        root:path.join(__dirname,'../../views/super_admin')
+                if(req.session.type){
+                    res.sendFile('dashboard.html',{
+                        root:path.join(__dirname,'../../views')
                     });
                 } 
-                else if(req.session.type === "hr"){
-                    // res.redirect("/hr?id=" + employee["sapientId"]);
-                    res.sendFile('index.html',{
-                        root:path.join(__dirname,'../../views/super_admin')
-                    });
-                }
-                else if(req.session.type === "interviewer"){
-                    // res.redirect("/interviewer?id=" + employee["sapientId"]);
-                    res.sendFile('index.html',{
-                        root:path.join(__dirname,'../../views/super_admin')
-                    });
-                }
             } else{
-                console.log('no type in employee result')
+                console.log('user may be a candidate')
             }
         }
     }

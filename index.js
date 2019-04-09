@@ -1,5 +1,4 @@
 var app = require('./app');
-// var debug = require('debug')('ritwebapp:server');
 var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
@@ -47,6 +46,5 @@ function onListening() {
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-//   debug('Listening on ' + bind);
 console.log("listening on "+bind);
 }
