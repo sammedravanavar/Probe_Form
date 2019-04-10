@@ -4,29 +4,42 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="/css/materialize.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <title>Login</title>
 </head>
 <body>
     <form action="/v1/apis/login" method="post">
-        <div>
-            <div>
-                <div>
-                    <label>Email</label>
-                    <input type="text" name="email" />
-                </div>
-            </div>
-            <div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" name="pass"/>
-                </div>
-            </div>
 
-            <div>
-              <button type="submit">Sign In</button>
-              <a href="/forgotPass">forgot password?</a>
+    
+    <div class="row">
+        <div class="col s12 m4 offset-m4">
+            <div class="card">
+                <div class="card-action purple lighten-1 white-text">
+                    <h3>Login</h3>
+                </div>
+                <div class="card-content">
+                    <div class="form-field">
+                        <label for="username">Username</label>
+                        <input id="email"type="email" name="email" />
+                    </div><br>
+    
+                    <div class="form-field">
+                        <label for="password">Password</label>
+                        <input id="pass"type="password" name="pass"/>
+                    </div><br>
+    
+                    <div class="form-field">
+                        <button class= "btn-large purple lighten-1"type="submit">Sign In</button>
+                    </div><br>
+                    <div id="errorMessage">
+
+                    </div>
+                </div>
             </div>
-          </div>
-    </form>
+        </div>
+    </div>
+</form>
+<script src = "/js/validations.js"></script>
 </body>
 </html>

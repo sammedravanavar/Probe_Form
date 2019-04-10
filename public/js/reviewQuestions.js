@@ -16,12 +16,10 @@
             request.send();
         }
     }
-    var questionBank;
     call('POST','review_questions',function(data){
-        // console.log(data);
-        questionBank = data;
+        console.log(data);
         var row = document.getElementById('questionContainer');
-        for (let i=0;i<3;i++){
+        for (let i=0;i<6;i++){
             var colDiv = document.createElement('div');
             colDiv.className="col s12 m12";
             colDiv.setAttribute('id',data[i].qId);
@@ -86,6 +84,10 @@
             radioDiv2.appendChild(labelReject);
             labelReject.appendChild(inputReject);
         }
+    });
+    var submitButton = document.getElementById('submit');
+    submitButton.addEventListener('onclick',function(e){
+        
     });
     var filterQuestions = function(tech, difficulty, cS, qS){
         console.log(cS);

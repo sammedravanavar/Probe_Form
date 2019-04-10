@@ -12,10 +12,19 @@ app.post('/', function(req, res, next) {
     var callback = function(err, result){
         if(err){
             console.log(err.message);
-            res.redirect("/login?error="+qs.escape(err.message));
+            //res.send("error");
+            //res.redirect("/login?error="+qs.escape(err.message));
+            res.sendFile('login.html',{
+                root:path.join(__dirname,'../../views')
+            });
         }
         if(result.length==0){
-            res.redirect("/login?error="+qs.escape("Please check your username and password"));
+            //res.send("error");
+            res.sendFile('login.html',{
+                root:path.join(__dirname,'../../views')
+            });
+            //res.end("error");
+        //    res.redirect("/login?error="+qs.escape("Please check your username and password"));
         }else{
             var employee=result[0];
             if(employee["type"]){
