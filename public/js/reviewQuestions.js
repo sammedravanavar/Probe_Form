@@ -19,7 +19,7 @@
     call('POST','review_questions',function(data){
         console.log(data);
         var row = document.getElementById('questionContainer');
-        for (let i=0;i<3;i++){
+        for (let i=0;i<6;i++){
             var colDiv = document.createElement('div');
             colDiv.className="col s12 m12";
             colDiv.setAttribute('id',data[i].qId);

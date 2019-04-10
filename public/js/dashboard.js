@@ -20,14 +20,19 @@
     }
     
     var auth;
+    var emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     var name = document.getElementById('name');
     var email = document.getElementById('email');
     var designation = document.getElementById('designation');
     var cancel = document.getElementById('cancel');
     var submit = document.getElementById('submit');
     var editProfile = document.getElementById('editProfile');
+    var profile=document.getElementById('profile');
     var changePassword = document.getElementById('changePassword');
     var type = document.getElementById('type');
+    var errorMessage = document.createElement('label');
+    errorMessage.id="err";
+    errorMessage.style.color="red";
     
     //genertes a modal layout with header, content and modal close functionality
     var createModal = function(){
@@ -78,7 +83,6 @@
     setDefault();
 
     call('GET','getEmployeeDetails',function(data){
-        var profile=document.getElementById('profile');
         name.value = (data.name).charAt(0).toUpperCase()+(data.name).slice(1);
         email.value = data.email;
         designation.value = data.designation;
@@ -109,7 +113,25 @@
             var newName = name.value;
             var newEmail = email.value;
             var newDesgnation = designation.value;
-            call('POST','editEmployee',function(data){console.log(data)}, JSON.stringify({'name':newName,'email':newEmail,'designation':newDesgnation}));
+            if(newName.length==0||newEmail.length==0||newDesgnation.length==0){
+                profile.appendChild(errorMessage);
+                errorMessage.innerHTML="Fill all input fields" + '<br/>';
+                name.value = currentName;
+                email.value = currentEmail;
+                designation.value = currentDesgnation;
+            }
+            if(!newEmail.match(emailRegex)){
+                profile.appendChild(errorMessage);
+                errorMessage.innerHTML="Email Format is wrong" + '<br/>';
+                name.value = currentName;
+                email.value = currentEmail;
+                designation.value = currentDesgnation;
+            }
+            else{
+                errorMessage.innerHTML=""
+                call('POST','editEmployee',function(data){console.log(data)}, JSON.stringify({'name':newName,'email':newEmail,'designation':newDesgnation}));
+            }
+            
         }
     }
 
@@ -176,23 +198,45 @@
                         roleOptions[i].value = role;
                         roleType.innerHTML += roleOptions[i].outerHTML;
                     })
-                    var designation = document.createElement('input');
-                    designation.type = 'text'; designation.placeholder = "Designation"; designation.id = 'newDesignation';
+                    var designation = document.createElement('select');
+                    designation.id = 'careerStage';
+                    // designation.type = 'text';  
+                    var designations=["AL1", "AL2", "SAL1", "SAL2"]
+                    var desigOptions = [];
+                    designations.forEach((d,i)=>{
+                        desigOptions[i] = document.createElement('option');
+                        desigOptions[i].innerHTML = d;
+                        desigOptions[i].value = d;
+                        designation.innerHTML +=desigOptions[i].outerHTML;
+                    })
+                    // designation.placeholder = "Designation"; 
+                    // designation.id = 'newDesignation';
                     var submitForm = document.createElement('button');
                     submitForm.id = "submitUser";
                     submitForm.innerHTML = 'Submit';
-                    modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + roleType.outerHTML + designation.outerHTML + submitForm.outerHTML;
+                    submitForm.className="btn";
+                    modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + roleType.outerHTML + designation.outerHTML + submitForm.outerHTML + '<br/>';
                     document.getElementById("submitUser").onclick = function(){
                         var sapientId = document.getElementById('sapientId').value;
                         var name = document.getElementById('newName').value;
                         var email = document.getElementById('newEmail').value;
                         var password = document.getElementById('newPassword').value;
                         var role = document.getElementById('newRole').options[document.getElementById('newRole').selectedIndex].value;
-                        var designation = document.getElementById('newDesignation').value;
-                        call('POST','add_users',function(data){
-                            console.log(data)
-                        },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':role,'designation':designation}))       
-                        document.body.removeChild(modalContent.parentElement)
+                        var careerStage = document.getElementById('careerStage').options[document.getElementById('careerStage').selectedIndex].value;
+                        if(sapientId.length==0||name.length==0||email.length==0||password.length==0){
+                            modalContent.appendChild(errorMessage);
+                            errorMessage.innerHTML="Fill all input fields" + '<br/>';
+                        }
+                        if(!email.match(emailRegex)){
+                            modalContent.appendChild(errorMessage);
+                            errorMessage.innerHTML+="Email Format is wrong";
+                        }
+                        else{
+                            call('POST','add_users',function(data){
+                                console.log(data)
+                            },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':role,'designation':careerStage}))       
+                            document.body.removeChild(modalContent.parentElement)
+                        }
                     }
                 })
             }
@@ -229,10 +273,11 @@
                         container.innerHTML += checckLabel.outerHTML + '<br/>';
                     })
                     var submitForm = document.createElement('button');
+                    submitForm.className="btn";
                     submitForm.id = "submitForm";
                     submitForm.style.marginTop = '20px';
                     submitForm.innerHTML = 'Submit';
-                    modalContent.innerHTML += role.outerHTML + container.outerHTML + submitForm.outerHTML;
+                    modalContent.innerHTML += role.outerHTML + container.outerHTML + submitForm.outerHTML + '<br/>';
                     document.getElementById("submitForm").onclick = function(){
                         var roleName = document.getElementById('role').value
                         var checkedList = document.querySelectorAll('input[name="'+'permissions'+'"]:checked'),values=[];
@@ -240,9 +285,20 @@
                         checkedList.forEach(checked=>{
                             checkedPermissionsList.push(permissionJson[checked.value])
                         })
-                        call('POST','create_role',function(data){
-                        },JSON.stringify({'role':roleName,'permissions': checkedPermissionsList}))       
-                        document.body.removeChild(modalContent.parentElement)
+                        if(roleName.length==0){
+                            modalContent.appendChild(errorMessage);
+                            errorMessage.innerHTML="Role Name must be added"+'<br/>';
+                        }
+                        if(checkedPermissionsList.length==0){
+                            modalContent.appendChild(errorMessage);
+                            errorMessage.innerHTML+="At least 1 permission must be selected";
+                        }
+                        else{
+                            call('POST','create_role',function(data){
+                            },JSON.stringify({'role':roleName,'permissions': checkedPermissionsList}))       
+                            document.body.removeChild(modalContent.parentElement)
+                        }
+                        
                     }
                 })
             }
@@ -253,10 +309,9 @@
                 createModal();
                 var modalContent = document.getElementById('modalContent');
                 var modalHeader = document.getElementById('modalHeader');
-                modalHeader.innerHTML = "<h5>Create New Role</h5>"
-                // var role = document.createElement('input');
-                // role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
+                modalHeader.innerHTML = "<h5>Add Question</h5>"
                 var text = document.createElement('textarea');
+                text.required=true;
                 text.placeholder = "Question"; text.id = "question";
                 var op1 = document.createElement('input');
                 op1.type = "text"; op1.placeholder = "Option 1"; op1.id = "op1";
@@ -270,6 +325,7 @@
                 op5.type = "text"; op5.placeholder = "Option 5"; op5.id = "op5";
                 var answer = document.createElement('input');
                 answer.type = "number"; answer.placeholder = "Option number of correct answer"; answer.id = "answer";
+                answer.min="1";answer.max="5";
                 var levels = [], techs = [], stages=[];
                 var difficulty = document.createElement('select');
                 difficulty.id = 'difficulty';
@@ -296,10 +352,11 @@
                     careerStage.innerHTML += stages[i].outerHTML;
                 })
                 var submitForm = document.createElement('button');
+                submitForm.className="btn";
                 submitForm.id = 'submitQuestion';
                 submitForm.innerHTML = 'Submit';
                 // submitForm.type = 'submit';
-                modalContent.innerHTML += '<br/>' + text.outerHTML + op1.outerHTML + op2.outerHTML + op3.outerHTML + op4.outerHTML + op5.outerHTML + answer.outerHTML + careerStage.outerHTML  + difficulty.outerHTML + technology.outerHTML + '<br/>' + submitForm.outerHTML;
+                modalContent.innerHTML += '<br/>' + text.outerHTML + op1.outerHTML + op2.outerHTML + op3.outerHTML + op4.outerHTML + op5.outerHTML + answer.outerHTML + careerStage.outerHTML  + difficulty.outerHTML + technology.outerHTML + '<br/>' + submitForm.outerHTML + '<br/>';
                 document.getElementById("submitQuestion").onclick = function(){
                     var text = document.getElementById('question').value;
                     var op = [];
@@ -308,15 +365,26 @@
                     op[2] = document.getElementById('op3').value;
                     op[3] = document.getElementById('op4').value;
                     op[4] = document.getElementById('op5').value;
+                    
                     var answer = op[document.getElementById('answer').value - 1];
+                    console.log(answer);
                     var careerStage = document.getElementById('careerStage').options[document.getElementById('careerStage').selectedIndex].value;
                     var difficulty = document.getElementById('difficulty').options[document.getElementById('difficulty').selectedIndex].value;
                     var technology = document.getElementById('technology').options[document.getElementById('technology').selectedIndex].value;
-                    call('POST','add_questions',function(data){
-                        console.log(data)
-                    },JSON.stringify({'text':text,'op1':op[0],'op2':op[1],'op3':op[2],'op4':op[3],'op5':op[4],
-                    'answer':answer, 'careerStage':careerStage, 'difficulty':difficulty, 'technology':technology}))       
-                    document.body.removeChild(modalContent.parentElement)
+                    if(text.length==0 ||op[0].length==0||op[1].length==0||op[2].length==0||op[3].length==0||op[4].length==0||answer==null){
+                        modalContent.appendChild(errorMessage);
+                        errorMessage.innerHTML="Fill all input fields";
+                    }
+                    else{
+                        errorMessage.innerHTML="";
+                        call('POST','add_questions',function(data){
+                            console.log(data)
+                        },JSON.stringify({'text':text,'op1':op[0],'op2':op[1],'op3':op[2],'op4':op[3],'op5':op[4],
+                        'answer':answer, 'careerStage':careerStage, 'difficulty':difficulty, 'technology':technology}))       
+                        document.body.removeChild(modalContent.parentElement)
+                    }
+                    
+                    
                 }
             }
         }
@@ -342,17 +410,29 @@
                 var submitForm = document.createElement('button');
                 submitForm.id = "submitUser";
                 submitForm.innerHTML = 'Submit';
-                modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + role.outerHTML + designation.outerHTML + submitForm.outerHTML;
+                submitForm.className="btn";
+                modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + role.outerHTML + designation.outerHTML + submitForm.outerHTML + '<br/>';
                 document.getElementById("submitUser").onclick = function(){
                     var sapientId = document.getElementById('sapientId').value;
                     var name = document.getElementById('newName').value;
                     var email = document.getElementById('newEmail').value;
                     var password = document.getElementById('newPassword').value;
                     var designation = document.getElementById('newDesignation').value;
-                    call('POST','add_users',function(data){
-                        console.log(data)
-                    },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':'hr','designation':designation}))       
-                    document.body.removeChild(modalContent.parentElement)
+                    if(sapientId.length==0||name.length==0||email.length==0||password.length==0){
+                        modalContent.appendChild(errorMessage);
+                        errorMessage.innerHTML="Fill all input fields";
+                    }
+                    if(!email.match(emailRegex)){
+                        modalContent.appendChild(errorMessage);
+                        errorMessage.innerHTML="Email Format is wrong";
+                    }
+                    else{
+                        call('POST','add_users',function(data){
+                            console.log(data)
+                        },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':'hr','designation':designation}))       
+                        document.body.removeChild(modalContent.parentElement)
+                    }
+                    
                 }
             }
         }
@@ -390,17 +470,29 @@
                 var submitForm = document.createElement('button');
                 submitForm.id = "submitUser";
                 submitForm.innerHTML = 'Submit';
-                modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + role.outerHTML + designation.outerHTML + submitForm.outerHTML;
+                submitForm.className="btn";
+                modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + role.outerHTML + designation.outerHTML + submitForm.outerHTML + '<br/>';
                 document.getElementById("submitUser").onclick = function(){
                     var sapientId = document.getElementById('sapientId').value;
                     var name = document.getElementById('newName').value;
                     var email = document.getElementById('newEmail').value;
                     var password = document.getElementById('newPassword').value;
                     var designation = document.getElementById('newDesignation').value;
-                    call('POST','add_users',function(data){
-                        console.log(data)
-                    },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':'interviewer','designation':designation}))       
-                    document.body.removeChild(modalContent.parentElement)
+                    if(sapientId.length==0||name.length==0||email.length==0||password.length==0||designation.length==0){
+                        modalContent.appendChild(errorMessage);
+                        errorMessage.innerHTML="Fill all input fields";
+                    }
+                    if(!email.match(emailRegex)){
+                        modalContent.appendChild(errorMessage);
+                        errorMessage.innerHTML="Email Format is wrong";
+                    }
+                    else{
+                        call('POST','add_users',function(data){
+                            console.log(data)
+                        },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':'interviewer','designation':designation}))       
+                        document.body.removeChild(modalContent.parentElement)
+                    }
+                    
                 }
             }
         }

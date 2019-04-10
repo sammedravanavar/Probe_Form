@@ -6,23 +6,32 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Probe Form</title>
     <link rel="stylesheet" href="/css/materialize.css">
-    <!-- <link rel="stylesheet" href="/css/purified.css"> -->
     <link rel="stylesheet" href="/css/dashboard.css">
     <style>
+         #logout {
+            float: right;
+            padding-right: 3%;
+            color: whitesmoke;
+            font-size: 1.15rem;
+        }
         #bodyRow {
             margin-top: 2rem;
             margin-bottom: 2rem;
+            margin-left:2rem;
+            margin-right:2rem;
         }
     
         #cardContainer {
             float: right;
             margin-right: 1rem;
+            /* width:100%; */
         }
     
         #profile {
             /* float: left; */
             margin-bottom: 2rem;
-            margin-right: 1rem;
+            /* margin-right:2rem; */
+            padding-right: -1rem;
         }
         .mt-1{
             margin-top: 1rem;
@@ -68,14 +77,18 @@
         select {
             display: block !important;
         }
+        input:disabled {
+            color:lightgrey!important;
+        }
     </style>
 </head>
 <body>
-    <div class="navbar-fixed">
+    <div class="navbar-fixed purple lighten-1">
         <nav>
-            <div class="nav-wrapper">
+            <div class="nav-wrapper purple lighten-1">
                 <a href="#" id="type" class="brand-logo center"></a>
-                <a href="/v1/apis/logout">logout</a>
+                <label id="logout">Logout</label>
+                <!-- <a href="/v1/apis/logout">Logout</a> -->
             </div>
         </nav>
     </div>
@@ -102,6 +115,12 @@
     </div>
     
     <!-- <a href="/v1/apis/logout">logout</a> -->
+    <script>
+        var x = document.getElementById("logout");
+        x.addEventListener("click", function () {
+            document.location.href = "/v1/apis/logout";
+        });
+</script>
     <script src="/js/dashboard.js"></script>
 </body>
 </html>
