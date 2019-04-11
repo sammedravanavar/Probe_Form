@@ -14,6 +14,9 @@ body {
     margin: 0;
     display: block;
 }
+.errorMessage{
+    color:red!important;
+}
 label {
     font-size: 0.8rem;
     vertical-align: middle;

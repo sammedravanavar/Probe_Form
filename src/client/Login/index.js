@@ -5,7 +5,7 @@ import Component from '../lib/component.js';
 var login = function(){
     let email = pf('username').value;
     let password = pf('password').value;
-    let error = pf('errorMessage');
+    let error = document.getElementsByClassName('errorMessage')[0];
     if(validate('login',[email,password],error)){
         call('POST','login',function(data){
             if(!(data.error))

@@ -36,4 +36,10 @@ var tempAlert = function(msg,duration)
     document.body.appendChild(el);
 }
 
-export {call, pf, formatString, tempAlert};
+var createErrorMessageHolder = function(){
+    var modalError = document.createElement('div');
+    modalError.className = 'errorMessage';
+    return modalError;
+}
+
+export {call, pf, formatString, tempAlert, createErrorMessageHolder};
