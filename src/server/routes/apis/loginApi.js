@@ -12,10 +12,9 @@ app.post('/', function(req, res, next) {
     var callback = function(err, result){
         if(err){
             console.log(err.message);
-            res.redirect("/login?error="+qs.escape(err.message));
         }
         if(result.length==0){
-            res.redirect("/login?error="+qs.escape("Please check your username and password"));
+            res.send({"error":"Either your email or password is incorrect"})
         }else{
             var employee=result[0];
             if(employee["type"]){
@@ -23,9 +22,6 @@ app.post('/', function(req, res, next) {
                 req.session.email = employee["email"];
                 req.session.type = employee["type"];
                 if(req.session.type){
-                    // res.sendFile('dashboard.html',{
-                    //     root:path.join(__dirname,'../../views')
-                    // });
                     res.send(result);
                 } 
             } else{

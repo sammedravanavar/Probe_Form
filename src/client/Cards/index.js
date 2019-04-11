@@ -1,6 +1,6 @@
+import Component from '../lib/component.js'
 import {pf, call} from '../utilities/utilities.js'
 import {createCard} from '../utilities/createCard.js';
-import Component from '../lib/component.js'
 
 class Cards extends Component{
     constructor(){

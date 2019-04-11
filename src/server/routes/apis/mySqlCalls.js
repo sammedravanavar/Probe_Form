@@ -28,14 +28,13 @@ sqlObject.prototype.login = function(email, pass, callback){
 			// var sql = "select * \
 			// 	from administrator_login \
 			// 	where emailId=? and password=?";
-				console.log("check for candidate login");
+				// console.log("check for candidate login");
 		//    connection.query(sql, [email, pass], function(err,result){
 		// 	if(err){
 		// 		callback(err,undefined);
 		// 		return;
 		// 	}
-		// 	// console.log("hll");
-		// 	callback(err,result);
+			callback(err,result);
 		// })
 		} else{
 			callback(err, result);

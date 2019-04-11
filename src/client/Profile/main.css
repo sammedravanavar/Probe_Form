@@ -1,0 +1,10 @@
+#bodyRow {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+#profile {
+    margin-top: 1rem;  
+    padding-right: -1rem;
+    margin-bottom: 2rem;
+    height: 100%;
+}

@@ -1,8 +1,9 @@
 import {pf, call, formatString, tempAlert} from './utilities.js'
 import {createModal} from './createModal.js';
+import { validate } from './validation.js';
 
 var reviewUsers = function(){
-    window.location.href = '/admin/reviewUsers'
+    // window.location.href = '/admin/reviewUsers'
 }
 
 var reviewQuestion = function (){
@@ -50,7 +51,6 @@ var addUsers = function (type) {
                 roleType.innerHTML += roleOptions[i].outerHTML;
             })
         }
-        
         var designation = document.createElement('select');
         designation.id = 'careerStage';
         var designations=["AL1", "AL2", "SAL1", "SAL2"]
@@ -73,15 +73,7 @@ var addUsers = function (type) {
             var password = pf('newPassword').value;
             var role = pf('newRole').options[pf('newRole').selectedIndex].value;
             var careerStage = pf('careerStage').options[pf('careerStage').selectedIndex].value;
-            if(sapientId.length==0||name.length==0||email.length==0||password.length==0){
-                modalContent.appendChild(errorMessage);
-                errorMessage.innerHTML="Fill all input fields" + '<br/>';
-            }
-            if(!email.match(emailRegex)){
-                modalContent.appendChild(errorMessage);
-                errorMessage.innerHTML+="Email Format is wrong";
-            }
-            else{
+            if(validate("add_user",[sapientId,name,email,password],modalContent)){
                 call('POST','add_users',function(data){
                     console.log(data)
                 },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':role,'designation':careerStage}))       
@@ -122,6 +114,7 @@ var createRole = function() {
         })
         var submitForm = document.createElement('button');
         submitForm.id = "submitForm";
+        submitForm.className="btn";
         submitForm.style.marginTop = '20px';
         submitForm.innerHTML = 'Submit';
         modalContent.innerHTML += role.outerHTML + container.outerHTML + submitForm.outerHTML;
@@ -132,9 +125,11 @@ var createRole = function() {
             checkedList.forEach(checked=>{
                 checkedPermissionsList.push(permissionJson[checked.value])
             })
-            call('POST','create_role',function(data){
-            },JSON.stringify({'role':roleName,'permissions': checkedPermissionsList}))       
-            document.body.removeChild(modalContent.parentElement)
+            if(validate("create_role",[roleName, checkedPermissionsList], modalContent)){
+                call('POST','create_role',function(data){
+                },JSON.stringify({'role':roleName,'permissions': checkedPermissionsList}))       
+                document.body.removeChild(modalContent.parentElement)
+            }
         }
     })    
 }
@@ -145,7 +140,7 @@ var addQuestions = function () {
         createModal();
         var modalContent = pf('modalContent');
         var modalHeader = pf('modalHeader');
-        modalHeader.innerHTML = "<h5>Create New Role</h5>"
+        modalHeader.innerHTML = "<h5>Add Question</h5>"
         // var role = document.createElement('input');
         // role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
         var text = document.createElement('textarea');
@@ -162,6 +157,7 @@ var addQuestions = function () {
         op5.type = "text"; op5.placeholder = "Option 5"; op5.id = "op5";
         var answer = document.createElement('input');
         answer.type = "number"; answer.placeholder = "Option number of correct answer"; answer.id = "answer";
+        answer.min = "1"; answer.max = "5";
         var levels = [], techs = [], stages=[];
         var difficulty = document.createElement('select');
         difficulty.id = 'difficulty';
@@ -188,6 +184,7 @@ var addQuestions = function () {
             careerStage.innerHTML += stages[i].outerHTML;
         })
         var submitForm = document.createElement('button');
+        submitForm.className="btn";
         submitForm.id = 'submitQuestion';
         submitForm.innerHTML = 'Submit';
         // submitForm.type = 'submit';
@@ -201,32 +198,35 @@ var addQuestions = function () {
             op[3] = pf('op4').value;
             op[4] = pf('op5').value;
             var answer = op[pf('answer').value - 1];
+            console.log(typeof pf('answer').value)
             var careerStage = pf('careerStage').options[pf('careerStage').selectedIndex].value;
             var difficulty = pf('difficulty').options[pf('difficulty').selectedIndex].value;
             var technology = pf('technology').options[pf('technology').selectedIndex].value;
-            call('POST','add_questions',function(data){
-                console.log(data)
-            },JSON.stringify({'text':text,'op1':op[0],'op2':op[1],'op3':op[2],'op4':op[3],'op5':op[4],
-            'answer':answer, 'careerStage':careerStage, 'difficulty':difficulty, 'technology':technology}))       
-            document.body.removeChild(modalContent.parentElement)
+            if(validate('add_questions',[text,op,pf('answer').value],modalContent)){
+                call('POST','add_questions',function(data){
+                    console.log(data)
+                },JSON.stringify({'text':text,'op1':op[0],'op2':op[1],'op3':op[2],'op4':op[3],'op5':op[4],
+                'answer':answer, 'careerStage':careerStage, 'difficulty':difficulty, 'technology':technology}))
+                document.body.removeChild(modalContent.parentElement)
+            }
         }
     }
 }
 
 var addCandidate = function () {
-    tempAlert("Page in progress", 3000)
+    // tempAlert("Page in progress", 3000)
 }
 
 var reviewCandidate = function () {
-    tempAlert("Page in progress", 3000)
+    // tempAlert("Page in progress", 3000)
 }
 
 var createQuiz = function () {
-    tempAlert("Page in progress", 3000)
+    // tempAlert("Page in progress", 3000)
 }
 
 var skillMatrix = function () {
-    tempAlert("Page in progress", 3000)
+    // tempAlert("Page in progress", 3000)
 }
 
 var functionalities = function(string){
