@@ -11,7 +11,11 @@ app.get('/', function(req, res, next) {
 		root: path.join(__dirname,'../../views/super_admin')
 	})
 });
-
+app.get('/dashboard',function(rq,res){
+    res.sendFile('dashboard.html',{
+        root:path.join(__dirname,'../../views')
+    });
+})
 app.get('/reviewUsers',function(rq,res){
     res.sendFile('reviewUsers.html',{
         root:path.join(__dirname,'../../views')

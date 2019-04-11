@@ -1,6 +1,6 @@
 var mysql = require('mysql');
 var sqlObject = function(){
-    this.connection = require('../../dbConnect').connectDB();
+    this.connection = require('../../../../dbConnect').connectDB();
 
 }
 

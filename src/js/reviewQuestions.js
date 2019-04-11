@@ -16,12 +16,12 @@
             request.send();
         }
     }
-    var questionBank;
-    call('POST','review_questions',function(data){
-        // console.log(data);
-        questionBank = data;
+    var displayList = function(data){
         var row = document.getElementById('questionContainer');
-        for (let i=0;i<3;i++){
+        while (row.firstChild) {
+            row.removeChild(row.firstChild);
+        }
+        data.forEach((item,i)=>{
             var colDiv = document.createElement('div');
             colDiv.className="col s12 m12";
             colDiv.setAttribute('id',data[i].qId);
@@ -35,15 +35,18 @@
             var text = document.createElement('p');
             text.innerHTML = data[i].text;
             var options = document.createElement('p');
+            // ["A. ","B. ","C. ","D. "+"E. "+"Answer: "].forEach((option,index)=>{
+            //     options.innerHTML += option+data[i].op1 + "&nbsp&nbsp";
+            // })
             options.innerHTML = "A. "+data[i].op1 + "&nbsp&nbsp";
             options.innerHTML += "B. "+data[i].op2 + "&nbsp&nbsp ";
             options.innerHTML += "C. "+data[i].op3 + "&nbsp&nbsp ";
             options.innerHTML += "D. "+data[i].op4 + " &nbsp&nbsp";
             options.innerHTML += "E. "+data[i].op5 + "&nbsp&nbsp ";
             options.innerHTML += "Answer: "+data[i].answer;
-            var breakLine1 = document.createElement('hr');
-            var breakLine2 = document.createElement('hr');
-            var breakLine3 = document.createElement('hr');
+            // var breakLine1 = document.createElement('hr');
+            // var breakLine2 = document.createElement('hr');
+            // var breakLine3 = document.createElement('hr');
             var attributes = document.createElement('p');
             attributes.innerHTML = "Technology: "+data[i].technology + "&nbsp&nbsp&nbsp";
             attributes.innerHTML += "Career Stage: "+data[i].careerStage + "&nbsp&nbsp&nbsp ";
@@ -68,37 +71,50 @@
             inputReject.setAttribute('type','radio');
             inputReject.className="opaque";
             inputReject.setAttribute('name',data[i].qId);
-            row.appendChild(colDiv);
-            colDiv.appendChild(card);
-            card.appendChild(cardContent);
-            cardContent.appendChild(title);
-            cardContent.appendChild(text);
-            cardContent.appendChild(breakLine1);
-            cardContent.appendChild(options);
-            cardContent.appendChild(breakLine2);
-            cardContent.appendChild(attributes);
-            cardContent.appendChild(breakLine3);
-            cardContent.appendChild(fieldset);
+            // cardContent.appendChild(title);
+            // cardContent.appendChild(text);
+            // cardContent.appendChild(breakLine1);
+            // cardContent.appendChild(options);
+            // cardContent.appendChild(breakLine2);
+            // cardContent.appendChild(attributes);
+            // cardContent.appendChild(breakLine3);
+            // cardContent.appendChild(fieldset);
             fieldset.appendChild(radioDiv1);
             radioDiv1.appendChild(labelApprove);
             labelApprove.appendChild(inputApprove);
             fieldset.appendChild(radioDiv2);
             radioDiv2.appendChild(labelReject);
             labelReject.appendChild(inputReject);
+            cardContent.innerHTML = title.outerHTML + text.outerHTML + "<hr/>" + options.outerHTML + "<hr/>" + attributes.outerHTML + "<hr/>" + fieldset.outerHTML;
+            card.appendChild(cardContent);
+            colDiv.appendChild(card);
+            row.appendChild(colDiv);
+        });
+    }
+    var paginate = function(data){
+        var currentPage = 1;
+        var dataPerPage = 30;
+        var numPages = Math.ceil(data.length/dataPerPage);
+        
+        // changePage(1)
+    }
+    var filterQuestions = function(tech, difficulty, cS, qS){
+        var filtered = questionBank.filter(function(question){
+            return question.technology == tech && question.difficulty == difficulty && question.status == qS && question.careerStage == cS;
+        })
+        displayList(filtered);
+    }
+    var questionBank;
+    call('POST','review_questions',function(data){
+        // console.log(data);
+        questionBank = data;
+        displayList(data);   
+        document.getElementById('filter').onclick = function(){
+            var technology = document.getElementById('tech').options[document.getElementById('tech').selectedIndex].value;
+            var difficulty = document.getElementById('dif').options[document.getElementById('dif').selectedIndex].value;
+            var careerStage = document.getElementById('career').options[document.getElementById('career').selectedIndex].value;
+            var questionStatus = document.getElementById('status').options[document.getElementById('status').selectedIndex].value;
+            filterQuestions(technology, difficulty, careerStage, questionStatus);
         }
     });
-    var filterQuestions = function(tech, difficulty, cS, qS){
-        console.log(cS);
-        var filtered = questionBank.filter(function(question){
-            return question.careerStage == cS;
-        })
-        console.log(filtered)
-    }
-    document.getElementById('filter').onclick = function(){
-        var technology = document.getElementById('tech').options[document.getElementById('tech').selectedIndex].value;
-        var difficulty = document.getElementById('dif').options[document.getElementById('dif').selectedIndex].value;
-        var careerStage = document.getElementById('career').options[document.getElementById('career').selectedIndex].value;
-        var questionStatus = document.getElementById('status').options[document.getElementById('status').selectedIndex].value;
-        filterQuestions(technology, difficulty, careerStage. questionStatus);
-    }
 })();

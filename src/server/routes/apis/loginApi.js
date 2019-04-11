@@ -23,9 +23,10 @@ app.post('/', function(req, res, next) {
                 req.session.email = employee["email"];
                 req.session.type = employee["type"];
                 if(req.session.type){
-                    res.sendFile('dashboard.html',{
-                        root:path.join(__dirname,'../../views')
-                    });
+                    // res.sendFile('dashboard.html',{
+                    //     root:path.join(__dirname,'../../views')
+                    // });
+                    res.send(result);
                 } 
             } else{
                 console.log('user may be a candidate')

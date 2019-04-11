@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <!-- <script type="text/javascript" src="js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> -->
+</head>
+<body>
+    <!-- <form action="/v1/apis/login" method="post">
+        <div>
+            <div>
+                <div>
+                    <label>Email</label>
+                    <input type="text" name="email" />
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label>Password</label>
+                    <input type="password" name="pass"/>
+                </div>
+            </div>
+
+            <div>
+              <button type="submit">Sign In</button>
+              <a href="/forgotPass">forgot password?</a>
+            </div>
+          </div>
+    </form> -->
+    <div class="row">
+        <div class="col s12 m4 offset-m4" data-component="Login">
+            <div class="card">
+                <div class="card-action purple lighten-1 white-text">
+                    <h3>Login Form</h3>
+                </div>
+                <div class="card-content">
+                    <div class="form-field">
+                        <label for="username">Username</label>
+                        <input type="text" id="username">
+                    </div><br>
+    
+                    <div class="form-field">
+                        <label for="password">Password</label>
+                        <input type="password" id="password">
+                    </div><br>
+    
+                    <div class="form-field">
+                       <button id="login" class="btn-large purple">Login</button>
+                    </div><br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script type="module" src="/js/login.js"></script> -->
+    <script type="module" src="/main.js"></script>
+</body>
+</html>
