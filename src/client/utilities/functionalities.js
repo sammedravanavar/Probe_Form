@@ -1,38 +1,38 @@
 import {pf, call, formatString, tempAlert, createErrorMessageHolder} from './utilities.js'
-import {createModal} from './createModal.js';
+import createModal from './createModal.js';
 import { validate } from './validation.js';
 
-var reviewUsers = function(){
+const reviewUsers = () => {
     // window.location.href = '/admin/reviewUsers'
 }
 
-var reviewQuestion = function (){
-    window.location.href = '/admin/reviewQuestions'
+const reviewQuestion = () => {
+    location.href = '/admin/reviewQuestions'
 }
 
-var modalError = createErrorMessageHolder();
+const modalError = createErrorMessageHolder();
 
-var addUsers = function (type) {  
-    call('GET','getAllTypes',function(data){
-        var roles = [];
-        for(var i=0; i<Object.keys(data).length; i++){
+const addUsers = type => {  
+    call('GET','getAllTypes', data =>{
+        let roles = [];
+        for(let i=0; i<Object.keys(data).length; i++){
             roles.push(data[i].type);
         }
         createModal();
-        var modalContent = pf('modalContent');
-        var modalHeader = pf('modalHeader');
+        let modalContent = pf('modalContent');
+        let modalHeader = pf('modalHeader');
         modalHeader.innerHTML = `<h5>Add New ${type}</h5>`
-        var sapientId = document.createElement('input');
+        let sapientId = document.createElement('input');
         sapientId.type = 'text'; sapientId.placeholder = "Sapient ID"; sapientId.id = 'sapientId';
-        var name = document.createElement('input'); 
+        let name = document.createElement('input'); 
         name.type = 'text'; name.placeholder = "Name"; name.id = 'newName';
-        var email = document.createElement('input');
+        let email = document.createElement('input');
         email.type = 'email'; email.placeholder = "Email"; email.id = 'newEmail';
-        var password = document.createElement('input');
+        let password = document.createElement('input');
         password.type = 'text'; password.placeholder = "Password"; password.id ='newPassword';
-        var roleType = document.createElement('select');
+        let roleType = document.createElement('select');
         roleType.id = 'newRole';
-        var roleOptions = []
+        let roleOptions = []
         if(type == "HR"){
             roleOptions[i] = document.createElement('option');
             roleOptions[i].innerHTML = "hr";
@@ -53,31 +53,31 @@ var addUsers = function (type) {
                 roleType.innerHTML += roleOptions[i].outerHTML;
             })
         }
-        var designation = document.createElement('select');
+        let designation = document.createElement('select');
         designation.id = 'careerStage';
-        var designations=["AL1", "AL2", "SAL1", "SAL2"]
-        var desigOptions = [];
+        let designations=["AL1", "AL2", "SAL1", "SAL2"]
+        let desigOptions = [];
         designations.forEach((d,i)=>{
             desigOptions[i] = document.createElement('option');
             desigOptions[i].innerHTML = d;
             desigOptions[i].value = d;
             designation.innerHTML +=desigOptions[i].outerHTML;
         })
-        var submitForm = document.createElement('button');
+        let submitForm = document.createElement('button');
         submitForm.id = "submitUser";
         submitForm.innerHTML = 'Submit';
         submitForm.className="btn";
         modalContent.innerHTML += sapientId.outerHTML + name.outerHTML + email.outerHTML + password.outerHTML + roleType.outerHTML + designation.outerHTML + submitForm.outerHTML;
         modalContent.appendChild(modalError);
-        pf("submitUser").onclick = function(){
-            var sapientId = pf('sapientId').value;
-            var name = pf('newName').value;
-            var email = pf('newEmail').value;
-            var password = pf('newPassword').value;
-            var role = pf('newRole').options[pf('newRole').selectedIndex].value;
-            var careerStage = pf('careerStage').options[pf('careerStage').selectedIndex].value;
+        pf("submitUser").onclick = () => {
+            let sapientId = pf('sapientId').value;
+            let name = pf('newName').value;
+            let email = pf('newEmail').value;
+            let password = pf('newPassword').value;
+            let role = pf('newRole').options[pf('newRole').selectedIndex].value;
+            let careerStage = pf('careerStage').options[pf('careerStage').selectedIndex].value;
             if(validate("add_user",[sapientId,name,email,password],modalError)){
-                call('POST','add_users',function(data){
+                call('POST','add_users', data => {
                     console.log(data)
                 },JSON.stringify({'sapientId':sapientId,'name':name,'email':email,'password':password,'type':role,'designation':careerStage}))       
                 document.body.removeChild(modalContent.parentElement)
@@ -86,28 +86,28 @@ var addUsers = function (type) {
     })
 }
 
-var createRole = function() {
-    call('GET','getAllPermissions',function(data){
-        var permissions = data;
-        var permissionList = [];
-        var permissionJson = {};
+const createRole = () => {
+    call('GET','getAllPermissions', data => {
+        let permissions = data;
+        let permissionList = [];
+        let permissionJson = {};
         createModal();
-        var modalContent = pf('modalContent');
-        var modalHeader = pf('modalHeader');
+        let modalContent = pf('modalContent');
+        let modalHeader = pf('modalHeader');
         modalHeader.innerHTML = "<h5>Create New Role</h5>";
-        var role = document.createElement('input');
+        let role = document.createElement('input');
         role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
-        var container = document.createElement('div'); 
+        let container = document.createElement('div'); 
         // container.className = "container";
         container.innerHTML = "<h5>Select Permissions</h5>"
-        for(var i=0; i<Object.keys(permissions).length; i++){
+        for(let i=0; i<Object.keys(permissions).length; i++){
             permissionJson[permissions[i].permission] = permissions[i].id;
             permissionList.push(permissions[i].permission)
         }
         permissionList.forEach(permission=>{
-            var checckLabel = document.createElement('label');
+            let checckLabel = document.createElement('label');
             checckLabel.for = permission;
-            var checkElement = document.createElement('input');
+            let checkElement = document.createElement('input');
             checkElement.id = permission;
             checkElement.type = 'checkbox';
             checkElement.name = 'permissions';
@@ -115,22 +115,22 @@ var createRole = function() {
             checckLabel.innerHTML += checkElement.outerHTML + formatString(permission);
             container.innerHTML += checckLabel.outerHTML + '<br/>';
         })
-        var submitForm = document.createElement('button');
+        let submitForm = document.createElement('button');
         submitForm.id = "submitForm";
         submitForm.className="btn";
         submitForm.style.marginTop = '20px';
         submitForm.innerHTML = 'Submit';
         modalContent.innerHTML += role.outerHTML + container.outerHTML + submitForm.outerHTML;
         modalContent.appendChild(modalError);
-        pf("submitForm").onclick = function(){
-            var roleName = pf('role').value
-            var checkedList = document.querySelectorAll('input[name="'+'permissions'+'"]:checked'),values=[];
-            var checkedPermissionsList = [];
+        pf("submitForm").onclick = () => {
+            let roleName = pf('role').value
+            let checkedList = document.querySelectorAll('input[name="'+'permissions'+'"]:checked'),values=[];
+            let checkedPermissionsList = [];
             checkedList.forEach(checked=>{
                 checkedPermissionsList.push(permissionJson[checked.value])
             })
             if(validate("create_role",[roleName, checkedPermissionsList], modalError)){
-                call('POST','create_role',function(data){
+                call('POST','create_role', data => {
                 },JSON.stringify({'role':roleName,'permissions': checkedPermissionsList}))       
                 document.body.removeChild(modalContent.parentElement)
             }
@@ -138,32 +138,32 @@ var createRole = function() {
     })    
 }
 
-var addQuestions = function () {
-    var addQuestions = pf('add_questions');
-    addQuestions.onclick = function(){
+const addQuestions = () => {
+    let addQuestions = pf('add_questions');
+    addQuestions.onclick = () => {
         createModal();
-        var modalContent = pf('modalContent');
-        var modalHeader = pf('modalHeader');
+        let modalContent = pf('modalContent');
+        let modalHeader = pf('modalHeader');
         modalHeader.innerHTML = "<h5>Add Question</h5>";
-        // var role = document.createElement('input');
+        // let role = document.createElement('input');
         // role.type = 'text'; role.placeholder = "Role Name"; role.id="role";
-        var text = document.createElement('textarea');
+        let text = document.createElement('textarea');
         text.placeholder = "Question"; text.id = "question";
-        var op1 = document.createElement('input');
+        let op1 = document.createElement('input');
         op1.type = "text"; op1.placeholder = "Option 1"; op1.id = "op1";
-        var op2 = document.createElement('input');
+        let op2 = document.createElement('input');
         op2.type = "text"; op2.placeholder = "Option 2"; op2.id = "op2";
-        var op3 = document.createElement('input');
+        let op3 = document.createElement('input');
         op3.type = "text"; op3.placeholder = "Option 3"; op3.id = "op3";
-        var op4 = document.createElement('input');
+        let op4 = document.createElement('input');
         op4.type = "text"; op4.placeholder = "Option 4"; op4.id = "op4";
-        var op5 = document.createElement('input');
+        let op5 = document.createElement('input');
         op5.type = "text"; op5.placeholder = "Option 5"; op5.id = "op5";
-        var answer = document.createElement('input');
+        let answer = document.createElement('input');
         answer.type = "number"; answer.placeholder = "Option number of correct answer"; answer.id = "answer";
         answer.min = "1"; answer.max = "5";
-        var levels = [], techs = [], stages=[];
-        var difficulty = document.createElement('select');
+        let levels = [], techs = [], stages=[];
+        let difficulty = document.createElement('select');
         difficulty.id = 'difficulty';
         ["easy", "medium", "difficult"].forEach((level,i)=>{
             levels[i] = document.createElement('option');
@@ -171,7 +171,7 @@ var addQuestions = function () {
             levels[i].value = level;
             difficulty.innerHTML += levels[i].outerHTML;
         })
-        var technology = document.createElement('select');
+        let technology = document.createElement('select');
         technology.id = 'technology';
         ["HTML","CSS","Javascript","JS Libraries/Frameworks","Mobile Web HTML5 Mark-up and APIs","Standards", "Debugging and Optimization","Accessibility"].forEach((tech,i)=>{
             techs[i] = document.createElement('option');
@@ -179,7 +179,7 @@ var addQuestions = function () {
             techs[i].value = tech;
             technology.innerHTML += techs[i].outerHTML;
         })
-        var careerStage = document.createElement('select');
+        let careerStage = document.createElement('select');
         careerStage.id = 'careerStage';
         ["AL1", "AL2", "SAL1", "SAL2"].forEach((cs,i)=>{
             stages[i] = document.createElement('option');
@@ -187,28 +187,28 @@ var addQuestions = function () {
             stages[i].value = cs;
             careerStage.innerHTML += stages[i].outerHTML;
         })
-        var submitForm = document.createElement('button');
+        let submitForm = document.createElement('button');
         submitForm.className="btn";
         submitForm.id = 'submitQuestion';
         submitForm.innerHTML = 'Submit';
         // submitForm.type = 'submit';
         modalContent.innerHTML += '<br/>' + text.outerHTML + op1.outerHTML + op2.outerHTML + op3.outerHTML + op4.outerHTML + op5.outerHTML + answer.outerHTML + careerStage.outerHTML  + difficulty.outerHTML + technology.outerHTML + '<br/>' + submitForm.outerHTML;
         modalContent.appendChild(modalError);
-        pf("submitQuestion").onclick = function(){
-            var text = pf('question').value;
-            var op = [];
+        pf("submitQuestion").onclick = () => {
+            let text = pf('question').value;
+            let op = [];
             op[0] = pf('op1').value;
             op[1] = pf('op2').value;
             op[2] = pf('op3').value;
             op[3] = pf('op4').value;
             op[4] = pf('op5').value;
-            var answer = op[pf('answer').value - 1];
+            let answer = op[pf('answer').value - 1];
             console.log(typeof pf('answer').value)
-            var careerStage = pf('careerStage').options[pf('careerStage').selectedIndex].value;
-            var difficulty = pf('difficulty').options[pf('difficulty').selectedIndex].value;
-            var technology = pf('technology').options[pf('technology').selectedIndex].value;
+            let careerStage = pf('careerStage').options[pf('careerStage').selectedIndex].value;
+            let difficulty = pf('difficulty').options[pf('difficulty').selectedIndex].value;
+            let technology = pf('technology').options[pf('technology').selectedIndex].value;
             if(validate('add_questions',[text,op,pf('answer').value],modalError)){
-                call('POST','add_questions',function(data){
+                call('POST','add_questions', data => {
                     console.log(data)
                 },JSON.stringify({'text':text,'op1':op[0],'op2':op[1],'op3':op[2],'op4':op[3],'op5':op[4],
                 'answer':answer, 'careerStage':careerStage, 'difficulty':difficulty, 'technology':technology}))
@@ -218,23 +218,23 @@ var addQuestions = function () {
     }
 }
 
-var addCandidate = function () {
+const addCandidate = () => {
     // tempAlert("Page in progress", 3000)
 }
 
-var reviewCandidate = function () {
+const reviewCandidate = () => {
     // tempAlert("Page in progress", 3000)
 }
 
-var createQuiz = function () {
+const createQuiz = () => {
     // tempAlert("Page in progress", 3000)
 }
 
-var skillMatrix = function () {
+const skillMatrix = () => {
     // tempAlert("Page in progress", 3000)
 }
 
-var functionalities = function(string){
+const functionalities = string => {
     switch(string){
         case "review_users": reviewUsers(); break;
         case "review_questions": reviewQuestion(); break; 
@@ -250,4 +250,4 @@ var functionalities = function(string){
     }
 }
 
-export {functionalities};
+export default functionalities;

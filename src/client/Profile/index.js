@@ -10,7 +10,7 @@ let submit = pf('submit');
 let editProfile = pf('editProfile');
 let changePassword = pf('changePassword');
 
-var setDefault = function(){
+const setDefault = () => {
     cancel.style.display= 'none';
     submit.style.display= 'none';
     editProfile.style.display= '';
@@ -20,7 +20,7 @@ var setDefault = function(){
     designation.disabled = true;
 }
 
-var editProf = function(){
+const editProf = () => {
     let currentName = name.value;
     let currentEmail = email.value;
     let currentDesgnation = designation.value;
@@ -31,18 +31,18 @@ var editProf = function(){
     name.disabled = false;
     email.disabled = false;
     designation.disabled = false;
-    cancel.addEventListener('click',function(){
+    cancel.addEventListener('click',() => {
         setDefault();
         name.value = currentName;
         email.value = currentEmail;
         designation.value = currentDesgnation;
     })
-    submit.addEventListener('click',function(){
+    submit.addEventListener('click',() => {
         setDefault();
         let newName = name.value;
         let newEmail = email.value;
         let newDesgnation = designation.value;
-        call('POST','editEmployee',function(data){console.log(data)}, JSON.stringify({'name':newName,'email':newEmail,'designation':newDesgnation}));
+        call('POST','editEmployee',(data)=>{console.log(data)}, JSON.stringify({'name':newName,'email':newEmail,'designation':newDesgnation}));
     })
 }
 
@@ -52,7 +52,7 @@ class Profile extends Component{
     }
     enable() {
         setDefault();
-        call('GET','getEmployeeDetails',function(data){
+        call('GET','getEmployeeDetails',(data) => {
             name.value = (data.name).charAt(0).toUpperCase()+(data.name).slice(1);
             email.value = data.email;
             designation.value = data.designation;

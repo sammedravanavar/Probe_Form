@@ -6,8 +6,8 @@ class Navbar extends Component{
         super();
     }
     enable() {
-        pf("logout").addEventListener('click',function(){
-            document.location.href = "/v1/apis/logout";
+        pf("logout").addEventListener('click', () => {
+            location.href = "/v1/apis/logout";
         })
     }
 }

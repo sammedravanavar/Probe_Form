@@ -3,6 +3,7 @@ exports.connectDB = function(){
     var con = mysql.createConnection({
         host: "localhost",
         user: "root",
+        password: "mysql12345",
         database: "probe_form"
     })
     con.connect(function(err){

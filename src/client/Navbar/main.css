@@ -1,46 +1,47 @@
+nav {
+  color: #ffffff;
+  background-color: #9c27b0;
+  width: 100%;
+}
+nav a {
+  color: #fff;
+}
 .navbar-fixed {
-    position: relative;
-    height: 56px;
-    z-index: 997;
+  position: relative;
+  height: 64px;
+  z-index: 997;
+}
+.navbar-fixed nav {
+  position: fixed;
+}
+.nav-wrapper {
+  min-height: 56px;
+  position: relative;
+}
+nav .brand-logo {
+  position: absolute;
+  color: #fff;
+  display: table;
+  font-size: 2.1rem;
+  padding: 0;
+}
+nav, nav .nav-wrapper {
+  height: 64px;
+  line-height: 64px;
+}
+nav .brand-logo.center {
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#logout {
+  float: right;
+  padding-right: 3%;
+  color: whitesmoke;
+  font-size: 1.15rem;
+}
+@media only screen and (min-width: 601px){
+  .navbar-fixed {
+      height: 64px;
   }
-  @media only screen and (min-width: 601px){
-    .navbar-fixed {
-        height: 64px;
-    }
-  }
-  .navbar-fixed nav {
-    position: fixed;
-  }
-  nav {
-    color: #ffffff;
-    background-color: #9c27b0;
-    width: 100%;
-  }
-  nav a {
-    color: #fff;
-  }
-  .nav-wrapper {
-    min-height: 56px;
-    position: relative;
-  }
-  nav, nav .nav-wrapper {
-    height: 64px;
-    line-height: 64px;
-  }
-  nav .brand-logo.center {
-    left: 50%;
-    transform: translateX(-50%);
-  }
-  nav .brand-logo {
-    position: absolute;
-    color: #fff;
-    display: inline-block;
-    font-size: 2.1rem;
-    padding: 0;
-  }
-  #logout {
-    float: right;
-    padding-right: 3%;
-    color: whitesmoke;
-    font-size: 1.15rem;
-  }
+}
