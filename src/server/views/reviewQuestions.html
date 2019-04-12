@@ -4,91 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <link rel="stylesheet" href="/css/materialize.css"> -->
-    <!-- <link rel="stylesheet" href="/css/dashboard.css"> -->
     <link rel="stylesheet" href="/client/main.css">
+    <link rel="stylesheet" href="/server/public/reviewQuestions.css">
     <title>Review Questions</title>
-    <style>
-        .opaque {
-            opacity: unset !important;
-            position: relative !important;
-            height: 1rem !important;
-            width: 1rem !important;
-            pointer-events: all !important;
-        }
-    
-        .inline {
-            display: inline-block !important;
-        }
-    
-        .rightFloat {
-            float:right;
-        }
-    
-        #questions::after {
-            clear: none;
-        }
-    
-        label {
-            font-size: 18px;
-            vertical-align: middle;
-        }
-    
-        input[type="radio"] {
-            vertical-align: middle;
-        }
-        button{
-            vertical-align: middle !important;
-            position:unset !important;
-
-        }
-        .vertical-align{
-            vertical-align: middle !important;
-        }
-        .mt-half{
-            margin-top:0.5rem;
-        }
-        .mt-1{
-            margin-top:1rem;
-        }
-        a{
-            color:darkblue;
-        }
-        fieldset{
-            margin:0;
-            padding:0;
-            border:0px;
-        }
-        #footer{
-            position:fixed;
-            bottom:0;
-            width:100%;
-        }
-
-        #header{
-            position:fixed;
-            top: 0;
-            width:100%;
-        }
-        [type="checkbox"]:not(:checked),
-        [type="checkbox"]:checked {
-            opacity: 1;
-            pointer-events: all;
-            position: relative;
-            vertical-align: middle;
-            margin: 0px 20px 0px 3px
-        }
-
-        label {
-            font-size: 12x;
-            vertical-align: middle;
-            color: #000;
-        }
-
-        select {
-            display: block !important;
-        }
-    </style>
 </head>
 <body>
     <div class="row">
@@ -177,6 +95,6 @@
             <button id = "submit"class="btn">Submit</button>
         </div>
     </div>
-    <script src="/js/reviewQuestions.js"></script>
+    <script src="/server/public/reviewQuestions.js"></script>
 </body>
 </html>

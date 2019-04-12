@@ -1,5 +1,5 @@
-import {pf, call, formatString} from '../utilities/utilities.js'
-import Component from '../lib/component.js'
+import Component from '../lib/component.js';
+import {pf, call, formatString} from '../utilities/utilities.js';
 
 let name = pf('name');
 let email = pf('email');

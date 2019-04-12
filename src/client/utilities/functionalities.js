@@ -1,6 +1,6 @@
 import {pf, call, formatString, tempAlert, createErrorMessageHolder} from './utilities.js'
 import createModal from './createModal.js';
-import { validate } from './validation.js';
+import validate from './validation.js';
 
 const reviewUsers = () => {
     // window.location.href = '/admin/reviewUsers'

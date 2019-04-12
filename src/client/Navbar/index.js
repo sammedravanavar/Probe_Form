@@ -1,5 +1,5 @@
-import {pf} from '../utilities/utilities.js'
-import Component from '../lib/component.js'
+import Component from '../lib/component.js';
+import {pf} from '../utilities/utilities.js';
 
 class Navbar extends Component{
     constructor(){
